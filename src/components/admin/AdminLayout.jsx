@@ -1,24 +1,19 @@
 import { useState, useRef, useEffect } from "react"
 import { Link, useLocation, useNavigate } from "react-router-dom"
 import { motion, AnimatePresence } from "framer-motion"
-import { LayoutDashboard, Package, ShoppingBag, BarChart3, Users, Bell, Menu, X, LogOut, ChevronRight, AlertTriangle, Store, Image, Tag, Ticket } from "lucide-react"
-import { useAuthStore } from "../../store/authStore"
-import { useAdminStore } from "../../store/adminStore"
+import { LayoutDashboard, FileText, Tag, UserCircle, AlertCircle, TrendingUp, Video, Radio, Image as ImageIcon, Home, Users, Bell, Menu, X, ChevronRight, AlertTriangle, MonitorPlay } from "lucide-react"
+import { useNewsAdminStore } from "../../store/newsAdminStore"
 import { supabase } from "../../lib/supabase"
-import toast from "react-hot-toast"
 
 const NAV = [
   { path: "/admin", label: "Dashboard", icon: LayoutDashboard },
-  { path: "/admin/products", label: "Products", icon: Package },
-  { path: "/admin/orders", label: "Orders", icon: ShoppingBag },
+  { path: "/admin/news", label: "News", icon: FileText },
   { path: "/admin/categories", label: "Categories", icon: Tag },
-  { path: "/admin/promo-codes", label: "Promo Codes", icon: Ticket },
-  { path: "/admin/banners", label: "Banners", icon: Image },
-  { path: "/admin/analytics", label: "Analytics", icon: BarChart3 },
+  { path: "/admin/reporters", label: "Reporters", icon: UserCircle },
   { path: "/admin/users", label: "Users", icon: Users },
 ]
 
-function Sidebar({ pathname, onSignOut, onNavClick, onToggle }) {
+function Sidebar({ pathname, onNavClick, onToggle }) {
   return (
     <motion.aside initial={{ width: 0, opacity: 0 }} animate={{ width: 240, opacity: 1 }} exit={{ width: 0, opacity: 0 }} transition={{ duration: 0.2 }}
       className="flex-shrink-0 bg-[#1B2B5E] flex flex-col overflow-hidden">
@@ -28,7 +23,8 @@ function Sidebar({ pathname, onSignOut, onNavClick, onToggle }) {
           onClick={onNavClick}
           className="flex items-center gap-2 select-none"
         >
-          <span className="text-white font-bold text-lg hover:text-blue-200 transition-colors" style={{ fontFamily: "Georgia, serif" }}>NaShe Jewels</span>
+          <MonitorPlay size={20} className="text-red-500" />
+          <span className="text-white font-bold text-lg hover:text-blue-200 transition-colors">SR TV NEWS</span>
         </Link>
       </div>
       <nav className="flex-1 p-3 space-y-1 overflow-y-auto">
@@ -44,11 +40,8 @@ function Sidebar({ pathname, onSignOut, onNavClick, onToggle }) {
       </nav>
       <div className="p-3 border-t border-white/10 space-y-1">
         <Link to="/" className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-blue-100 hover:text-white hover:bg-white/10 transition-all">
-          <Store size={17} /> Switch to User
+          <MonitorPlay size={17} /> View Website
         </Link>
-        <button onClick={onSignOut} className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-blue-100 hover:text-white hover:bg-white/10 transition-all">
-          <LogOut size={17} /> Logout
-        </button>
       </div>
     </motion.aside>
   )
@@ -67,18 +60,14 @@ export default function AdminLayout({ children }) {
     return () => window.removeEventListener('resize', handleResize)
   }, [])
   const [notifOpen, setNotifOpen] = useState(false)
-  const [profileOpen, setProfileOpen] = useState(false)
   const { pathname } = useLocation()
-  const { signOut, user } = useAuthStore()
-  const { notifications, clearNotification, addNotification } = useAdminStore()
+  const { notifications, clearNotification, addNotification } = useNewsAdminStore()
   const navigate = useNavigate()
   const notifRef = useRef(null)
-  const profileRef = useRef(null)
 
   useEffect(() => {
     const handler = (e) => {
       if (notifRef.current && !notifRef.current.contains(e.target)) setNotifOpen(false)
-      if (profileRef.current && !profileRef.current.contains(e.target)) setProfileOpen(false)
     }
     document.addEventListener("mousedown", handler)
     document.addEventListener("touchstart", handler)
@@ -97,9 +86,10 @@ export default function AdminLayout({ children }) {
 
   const getNotifLink = (n) => {
     const msg = n.msg?.toLowerCase() || ""
-    if (msg.includes("stock")) return "/admin/products"
-    if (msg.includes("order")) return "/admin/orders"
-    if (msg.includes("user")) return "/admin/users"
+    if (msg.includes("breaking")) return "/admin/breaking-news"
+    if (msg.includes("news") || msg.includes("article")) return "/admin/news"
+    if (msg.includes("reporter")) return "/admin/reporters"
+    if (msg.includes("video")) return "/admin/videos"
     return "/admin"
   }
 
@@ -109,25 +99,22 @@ export default function AdminLayout({ children }) {
     navigate(getNotifLink(n))
   }
 
-  const handleSignOut = async () => { await signOut(); toast.success("Signed out"); navigate("/") }
-
-  // Realtime: fire notification when a new order is inserted
+  // Realtime: fire notification when new news is published
   useEffect(() => {
     const channel = supabase
-      .channel("admin-new-orders")
+      .channel("admin-new-news")
       .on("postgres_changes", {
         event: "INSERT",
         schema: "public",
-        table: "orders",
+        table: "news",
       }, (payload) => {
-        const order = payload.new
-        const addrObj = (() => { try { return typeof order.address === "string" ? JSON.parse(order.address) : (order.address || {}) } catch { return {} } })()
-        const name = addrObj.full_name || "A customer"
-        const amount = order.total_amount ? `₹${Math.ceil(order.total_amount).toLocaleString("en-IN")}` : ""
-        const orderId = order.display_order_id || `#${String(order.id).slice(-6).toUpperCase()}`
-        addNotification(`🛍️ New order ${orderId} from ${name} ${amount}`, "info")
-        // Also reload orders in store
-        useAdminStore.getState().loadOrders(true)
+        const newsItem = payload.new
+        if (newsItem.status === 'published') {
+          const title = newsItem.title?.substring(0, 50) || "New article"
+          addNotification(`📰 New article published: "${title}${newsItem.title?.length > 50 ? '...' : ''}"`, "info")
+          // Reload news in store
+          useNewsAdminStore.getState().loadNews(true)
+        }
       })
       .subscribe()
     return () => supabase.removeChannel(channel)
@@ -136,7 +123,7 @@ export default function AdminLayout({ children }) {
   return (
     <div className="flex h-screen bg-[#F4F6FA] overflow-hidden">
       <AnimatePresence initial={false}>
-        {sidebarOpen && <Sidebar pathname={pathname} onSignOut={handleSignOut} onNavClick={() => { if (window.innerWidth < 1024) setSidebarOpen(false) }} onToggle={() => setSidebarOpen(o => !o)} />}
+        {sidebarOpen && <Sidebar pathname={pathname} onNavClick={() => { if (window.innerWidth < 1024) setSidebarOpen(false) }} onToggle={() => setSidebarOpen(o => !o)} />}
       </AnimatePresence>
       <div className="flex-1 flex flex-col overflow-hidden">
         <header className="h-14 bg-white border-b border-gray-200 flex items-center justify-between px-4 flex-shrink-0 shadow-sm">
@@ -194,40 +181,6 @@ export default function AdminLayout({ children }) {
                         ))
                       }
                     </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-            <div className="flex items-center gap-2 relative" ref={profileRef}>
-              <button
-                onClick={() => setProfileOpen(o => !o)}
-                className="flex items-center gap-2 hover:opacity-80 transition-opacity"
-              >
-                <div className="w-7 h-7 bg-[#1B2B5E] rounded-full flex items-center justify-center border-2 border-[#C9956C]">
-                  <span className="text-white text-xs font-bold">
-                    {(user?.user_metadata?.full_name || user?.user_metadata?.name || user?.email || "U")[0]?.toUpperCase()}
-                  </span>
-                </div>
-                <span className="text-gray-600 text-xs hidden sm:block font-medium">
-                  {user?.user_metadata?.full_name || user?.user_metadata?.name || user?.email?.split("@")[0]}
-                </span>
-              </button>
-              <AnimatePresence>
-                {profileOpen && (
-                  <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 8 }}
-                    className="absolute right-0 top-full mt-2 w-48 bg-white border border-gray-200 rounded-xl shadow-xl z-[100] overflow-hidden">
-                    <div className="px-4 py-3 border-b border-gray-100">
-                      <p className="text-gray-800 text-xs font-semibold truncate">
-                        {user?.user_metadata?.full_name || user?.user_metadata?.name || "Admin"}
-                      </p>
-                      <p className="text-gray-400 text-xs truncate">{user?.email}</p>
-                    </div>
-                    <button
-                      onClick={() => { setProfileOpen(false); handleSignOut() }}
-                      className="w-full flex items-center gap-2 px-4 py-3 text-sm text-red-500 hover:bg-red-50 transition-colors"
-                    >
-                      <LogOut size={14} /> Logout
-                    </button>
                   </motion.div>
                 )}
               </AnimatePresence>
