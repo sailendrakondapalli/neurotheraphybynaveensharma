@@ -1,7 +1,7 @@
 ﻿import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { Stethoscope, Star, Image, Video, HelpCircle, Calendar, CheckCircle, Clock, Users, TrendingUp } from 'lucide-react'
+import { Stethoscope, Star, Image, Video, HelpCircle, Calendar, CheckCircle, Clock, TrendingUp, Plus, Upload, Settings } from 'lucide-react'
 import { getDashboardStats, getRecentAppointments, getRecentTestimonials } from '../../services/neurotherapyService'
 
 function StatCard({ icon: Icon, label, value, color, to }) {
@@ -11,7 +11,7 @@ function StatCard({ icon: Icon, label, value, color, to }) {
         <div className={`w-11 h-11 rounded-xl flex items-center justify-center ${color}`}>
           <Icon size={20} className="text-white" />
         </div>
-        <span className={`text-2xl font-bold text-[#063B63]`}>{value ?? 'â€“'}</span>
+        <span className={`text-2xl font-bold text-[#063B63]`}>{value ?? '-'}</span>
       </div>
       <p className="text-[#3D5A73] text-sm font-medium">{label}</p>
     </motion.div>
@@ -136,15 +136,17 @@ export default function AdminDashboard() {
         <h2 className="font-bold text-[#063B63] text-base mb-4">Quick Actions</h2>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
           {[
-            { to: '/admin/services/new', icon: 'âž•', label: 'Add Service' },
-            { to: '/admin/gallery/new', icon: 'ðŸ–¼ï¸', label: 'Upload Image' },
-            { to: '/admin/videos/new', icon: 'ðŸŽ¥', label: 'Add Video' },
-            { to: '/admin/faqs/new', icon: 'â“', label: 'Add FAQ' },
-            { to: '/admin/settings', icon: 'âš™ï¸', label: 'Settings' },
+            { to: '/admin/services', icon: Plus, label: 'Add Service', color: 'bg-blue-50 text-blue-600' },
+            { to: '/admin/gallery', icon: Upload, label: 'Upload Image', color: 'bg-teal-50 text-teal-600' },
+            { to: '/admin/videos', icon: Video, label: 'Add Video', color: 'bg-red-50 text-red-600' },
+            { to: '/admin/faqs', icon: HelpCircle, label: 'Add FAQ', color: 'bg-purple-50 text-purple-600' },
+            { to: '/admin/settings', icon: Settings, label: 'Settings', color: 'bg-gray-50 text-gray-600' },
           ].map(action => (
             <Link key={action.to} to={action.to}
-              className="flex flex-col items-center gap-2 bg-[#F5FAFC] rounded-xl p-4 border border-blue-50 hover:border-blue-200 hover:shadow-sm transition-all text-center">
-              <span className="text-2xl">{action.icon}</span>
+              className="flex flex-col items-center gap-2 bg-[#F5FAFC] rounded-xl p-4 border border-blue-50 hover:border-blue-200 hover:shadow-sm transition-all text-center group">
+              <div className={`w-10 h-10 ${action.color} rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform`}>
+                <action.icon size={18} />
+              </div>
               <span className="text-[#3D5A73] text-xs font-medium">{action.label}</span>
             </Link>
           ))}

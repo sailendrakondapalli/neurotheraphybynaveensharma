@@ -36,7 +36,7 @@ html, body, #root {
     margin: 0;
     background-color: #F5FAFC;
     color: #12304A;
-    font-family: 'Inter', 'Poppins', sans-serif;
+    font-family: 'Inter', 'Poppins', 'Noto Sans Devanagari', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
@@ -49,7 +49,7 @@ html, body, #root {
   ::-webkit-scrollbar-thumb { background: #0877B8; border-radius: 3px; }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Poppins', 'Inter', sans-serif;
+    font-family: 'Poppins', 'Inter', 'Noto Sans Devanagari', sans-serif;
     font-weight: 700;
     line-height: 1.25;
   }
