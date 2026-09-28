@@ -89,7 +89,7 @@ export default function AdminDashboard() {
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="font-semibold text-[#063B63] text-sm truncate">{a.name}</p>
-                  <p className="text-[#7A9BB5] text-xs">{a.phone} {a.service_name ? `â€¢ ${a.service_name}` : ''}</p>
+                  <p className="text-[#7A9BB5] text-xs">{a.phone} {a.service_name ? `• ${a.service_name}` : ''}</p>
                 </div>
                 <span className={`flex-shrink-0 text-xs px-2 py-1 rounded-full font-semibold capitalize ${STATUS_COLORS[a.status] || 'bg-gray-100 text-gray-600'}`}>
                   {a.status}

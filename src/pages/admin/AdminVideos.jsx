@@ -149,7 +149,7 @@ export default function AdminVideos() {
         <div className="flex justify-center py-20"><div className="w-8 h-8 border-2 border-[#0877B8] border-t-transparent rounded-full animate-spin" /></div>
       ) : items.length === 0 ? (
         <div className="text-center py-20 bg-white rounded-2xl border border-gray-100">
-          <div className="text-5xl mb-3">ðŸŽ¥</div>
+          <div className="text-5xl mb-3">🎥</div>
           <p className="text-[#7A9BB5] mb-3">No videos yet</p>
           <button onClick={openNew} className="text-[#0877B8] text-sm font-semibold hover:underline">+ Add video</button>
         </div>

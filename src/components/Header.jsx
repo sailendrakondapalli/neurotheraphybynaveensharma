@@ -113,25 +113,13 @@ export default function Header() {
 
             {/* Logo */}
             <Link to="/" className="flex items-center gap-2 flex-shrink-0 min-w-0">
-              {settings.logo_url ? (
-                <img src={settings.logo_url} alt={settings.site_name || 'Neurotherapy'} className="h-10 w-auto" />
-              ) : (
-                <>
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#159A8C] to-[#063B63] flex items-center justify-center flex-shrink-0 shadow-sm">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M12 2a10 10 0 0 1 10 10c0 5.52-4.48 10-10 10S2 17.52 2 12c0-2.09.64-4.03 1.73-5.64"/>
-                      <path d="M12 2C6.48 2 2 6.48 2 12"/>
-                      <path d="m8 12 2.5 2.5L16 9"/>
-                    </svg>
-                  </div>
-                  <div className="leading-tight min-w-0">
-                    <div className="text-[#063B63] font-bold text-[14px] leading-tight truncate max-w-[160px] sm:max-w-none" style={{ fontFamily: 'Poppins, sans-serif' }}>
-                      {settings.site_name || 'Neurotherapy'}
-                    </div>
-                    <div className="text-[#159A8C] text-[10px] font-medium tracking-wide">Natural Care for a Better Life</div>
-                  </div>
-                </>
-              )}
+              <img src={settings.logo_url || '/logo.png'} alt={settings.site_name || 'Neurotherapy'} className="h-10 w-auto flex-shrink-0" />
+              <div className="leading-tight min-w-0">
+                <div className="text-[#063B63] font-bold text-[14px] leading-tight truncate max-w-[160px] sm:max-w-none" style={{ fontFamily: 'Poppins, sans-serif' }}>
+                  {settings.site_name || 'Neurotherapy'}
+                </div>
+                <div className="text-[#159A8C] text-[10px] font-medium tracking-wide">Natural Care for a Better Life</div>
+              </div>
             </Link>
 
             {/* Desktop Nav */}

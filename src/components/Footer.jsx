@@ -46,17 +46,11 @@ export default function Footer() {
           {/* Brand */}
           <div className="lg:col-span-1">
             <Link to="/" className="flex items-center gap-2 mb-4">
-              {settings.logo_url ? (
-                <img src={settings.logo_url} alt={siteName} className="h-10 w-auto brightness-0 invert" />
-              ) : (
-                <div className="flex items-center gap-2">
-                  <div className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-white font-bold text-sm">N</div>
-                  <div>
-                    <div className="font-bold text-base leading-tight">{siteName}</div>
-                    <div className="text-[#5BC8F5] text-xs">Home Visit Wellness</div>
-                  </div>
-                </div>
-              )}
+              <img src={settings.logo_url || '/logo.png'} alt={siteName} className="h-10 w-auto" />
+              <div>
+                <div className="font-bold text-base leading-tight">{siteName}</div>
+                <div className="text-[#5BC8F5] text-xs">Home Visit Wellness</div>
+              </div>
             </Link>
             <p className="text-blue-200 text-sm leading-relaxed mb-4">
               {settings.footer_text || 'Professional neurotherapy home visit wellness service in Bhopal by Naveen Sharma.'}

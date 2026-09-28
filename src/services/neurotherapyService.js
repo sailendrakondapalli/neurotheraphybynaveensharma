@@ -408,6 +408,45 @@ export async function updateContactSettings(settings) {
 }
 
 // â”€â”€â”€ DASHBOARD STATS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// Flash News
+export async function getActiveFlashNews() {
+  const { data, error } = await supabase
+    .from('flash_news')
+    .select('*')
+    .eq('is_active', true)
+    .order('created_at', { ascending: false })
+    .limit(1)
+    .maybeSingle()
+  if (error) throw error
+  return data || null
+}
+
+export async function getAllFlashNewsAdmin() {
+  const { data, error } = await supabase
+    .from('flash_news')
+    .select('*')
+    .order('created_at', { ascending: false })
+  if (error) throw error
+  return data || []
+}
+
+export async function createFlashNews(item) {
+  const { data, error } = await supabase.from('flash_news').insert(item).select().single()
+  if (error) throw error
+  return data
+}
+
+export async function updateFlashNews(id, item) {
+  const { data, error } = await supabase.from('flash_news').update(item).eq('id', id).select().single()
+  if (error) throw error
+  return data
+}
+
+export async function deleteFlashNews(id) {
+  const { error } = await supabase.from('flash_news').delete().eq('id', id)
+  if (error) throw error
+}
+
 export async function getDashboardStats() {
   const [services, testimonials, gallery, videos, faqs, appointments] = await Promise.all([
     supabase.from('services').select('id, status', { count: 'exact' }),

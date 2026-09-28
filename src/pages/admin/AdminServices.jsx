@@ -91,7 +91,7 @@ function CategoryManager({ categories, onCategoryAdded, onCategoryDeleted }) {
                   {cat.name}
                   <button type="button" onClick={() => handleDelete(cat.id, cat.name)}
                     className="text-gray-400 hover:text-red-500 transition-colors ml-0.5 leading-none">
-                    Ã—
+                    ×
                   </button>
                 </div>
               ))}
@@ -228,7 +228,7 @@ export default function AdminServices() {
         </div>
       ) : services.length === 0 ? (
         <div className="text-center py-20 bg-white rounded-2xl border border-gray-100">
-          <div className="text-5xl mb-3">ðŸ©º</div>
+          <div className="text-5xl mb-3">🩺</div>
           <p className="text-[#7A9BB5] mb-3">No services yet</p>
           <button onClick={openNew} className="text-[#0877B8] text-sm font-semibold hover:underline">+ Add your first service</button>
         </div>
@@ -254,7 +254,7 @@ export default function AdminServices() {
                         <div className="w-10 h-10 rounded-lg bg-gray-100 overflow-hidden flex-shrink-0 border border-gray-200">
                           {s.image
                             ? <img src={s.image} alt={s.title} className="w-full h-full object-cover" />
-                            : <div className="w-full h-full flex items-center justify-center text-lg">ðŸ©º</div>}
+                            : <div className="w-full h-full flex items-center justify-center text-lg">🩺</div>}
                         </div>
                         <div>
                           <p className="font-semibold text-[#063B63] text-sm">{s.title}</p>

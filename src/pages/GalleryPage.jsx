@@ -1,7 +1,7 @@
 ﻿import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Helmet } from 'react-helmet-async'
-import { X, ZoomIn, ChevronLeft, ChevronRight } from 'lucide-react'
+import { X, ZoomIn, ChevronLeft, ChevronRight, Image as ImageIcon } from 'lucide-react'
 import { getPublishedGallery } from '../services/neurotherapyService'
 import { useLanguage } from '../lib/LanguageContext'
 
@@ -58,28 +58,27 @@ export default function GalleryPage() {
   return (
     <>
       <Helmet>
-        <title>{lang === 'hi' ? 'à¤—à¥ˆà¤²à¤°à¥€ â€“ Neurotherapist Naveen Sharma' : 'Gallery â€“ Neurotherapist Naveen Sharma'}</title>
+        <title>{lang === 'hi' ? 'गैलरी' : 'Gallery'} - Neurotherapist Naveen Sharma</title>
         <meta name="description" content="View our neurotherapy wellness gallery." />
       </Helmet>
 
       <div className="bg-gradient-to-br from-[#063B63] to-[#0877B8] text-white py-10 md:py-14 px-4">
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold mb-4">
-            {lang === 'hi' ? 'à¤—à¥ˆà¤²à¤°à¥€' : 'Gallery'}
+            {lang === 'hi' ? 'गैलरी' : 'Gallery'}
           </h1>
           <p className="text-blue-100 text-lg">
-            {lang === 'hi' ? 'à¤¹à¤®à¤¾à¤°à¥€ à¤µà¥‡à¤²à¤¨à¥‡à¤¸ à¤¯à¤¾à¤¤à¥à¤°à¤¾ à¤•à¥€ à¤à¤• à¤à¤²à¤•' : 'A glimpse into our wellness journey'}
+            {lang === 'hi' ? 'हमारी वेलनेस यात्रा की एक झलक' : 'A glimpse into our wellness journey'}
           </p>
         </div>
       </div>
 
-      {/* Category filters */}
       {categories.length > 0 && (
         <div className="bg-white border-b border-gray-100 py-4 px-4">
           <div className="max-w-7xl mx-auto flex items-center gap-2 overflow-x-auto pb-1">
             <button onClick={() => setActiveCategory('all')}
               className={`flex-shrink-0 px-4 py-2 rounded-full text-sm font-semibold transition-all ${activeCategory === 'all' ? 'bg-[#063B63] text-white' : 'bg-gray-100 text-[#3D5A73] hover:bg-gray-200'}`}>
-              {lang === 'hi' ? 'à¤¸à¤­à¥€' : 'All'}
+              {lang === 'hi' ? 'सभी' : 'All'}
             </button>
             {categories.map(cat => (
               <button key={cat} onClick={() => setActiveCategory(cat)}
@@ -99,7 +98,7 @@ export default function GalleryPage() {
             </div>
           ) : filtered.length === 0 ? (
             <div className="text-center py-20">
-              <div className="text-5xl mb-4">ðŸ–¼ï¸</div>
+              <ImageIcon size={48} className="text-gray-300 mx-auto mb-4" />
               <p className="text-[#3D5A73]">{t.common.noContent}</p>
             </div>
           ) : (
@@ -126,7 +125,6 @@ export default function GalleryPage() {
         </div>
       </section>
 
-      {/* Lightbox */}
       <AnimatePresence>
         {lightbox !== null && filtered[lightbox] && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
@@ -168,5 +166,3 @@ export default function GalleryPage() {
     </>
   )
 }
-
-

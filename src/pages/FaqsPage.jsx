@@ -2,7 +2,7 @@
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { Helmet } from 'react-helmet-async'
-import { ChevronRight, Calendar, MessageCircle } from 'lucide-react'
+import { ChevronRight, Calendar, MessageCircle, HelpCircle } from 'lucide-react'
 import { getPublishedFaqs, getWebsiteSettings } from '../services/neurotherapyService'
 import { useLanguage } from '../lib/LanguageContext'
 
@@ -33,28 +33,27 @@ export default function FaqsPage() {
   return (
     <>
       <Helmet>
-        <title>{lang === 'hi' ? 'à¤¸à¤¾à¤®à¤¾à¤¨à¥à¤¯ à¤ªà¥à¤°à¤¶à¥à¤¨ â€“ Neurotherapist Naveen Sharma' : 'FAQs â€“ Neurotherapist Naveen Sharma'}</title>
+        <title>{lang === 'hi' ? 'सामान्य प्रश्न' : 'FAQs'} - Neurotherapist Naveen Sharma</title>
         <meta name="description" content="Frequently asked questions about neurotherapy home visit wellness." />
       </Helmet>
 
       <div className="bg-gradient-to-br from-[#063B63] to-[#0877B8] text-white py-10 md:py-14 px-4">
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold mb-4">
-            {lang === 'hi' ? 'à¤…à¤•à¥à¤¸à¤° à¤ªà¥‚à¤›à¥‡ à¤œà¤¾à¤¨à¥‡ à¤µà¤¾à¤²à¥‡ à¤ªà¥à¤°à¤¶à¥à¤¨' : 'Frequently Asked Questions'}
+            {lang === 'hi' ? 'अक्सर पूछे जाने वाले प्रश्न' : 'Frequently Asked Questions'}
           </h1>
           <p className="text-blue-100 text-lg">
-            {lang === 'hi' ? 'à¤¹à¤®à¤¾à¤°à¥€ à¤¸à¥‡à¤µà¤¾à¤“à¤‚ à¤•à¥‡ à¤¬à¤¾à¤°à¥‡ à¤®à¥‡à¤‚ à¤†à¤ªà¤•à¥‡ à¤ªà¥à¤°à¤¶à¥à¤¨à¥‹à¤‚ à¤•à¥‡ à¤‰à¤¤à¥à¤¤à¤°' : 'Answers to your questions about our neurotherapy wellness service'}
+            {lang === 'hi' ? 'हमारी सेवाओं के बारे में आपके प्रश्नों के उत्तर' : 'Answers to your questions about our neurotherapy wellness service'}
           </p>
         </div>
       </div>
 
-      {/* Category filters */}
       {categories.length > 0 && (
         <div className="bg-white border-b border-gray-100 py-4 px-4">
           <div className="max-w-4xl mx-auto flex items-center gap-2 overflow-x-auto pb-1">
             <button onClick={() => setActiveCategory('all')}
               className={`flex-shrink-0 px-4 py-2 rounded-full text-sm font-semibold transition-all ${activeCategory === 'all' ? 'bg-[#063B63] text-white' : 'bg-gray-100 text-[#3D5A73] hover:bg-gray-200'}`}>
-              {lang === 'hi' ? 'à¤¸à¤­à¥€' : 'All'}
+              {lang === 'hi' ? 'सभी' : 'All'}
             </button>
             {categories.map(cat => (
               <button key={cat} onClick={() => setActiveCategory(cat)}
@@ -74,7 +73,7 @@ export default function FaqsPage() {
             </div>
           ) : filtered.length === 0 ? (
             <div className="text-center py-20">
-              <div className="text-5xl mb-4">â“</div>
+              <HelpCircle size={48} className="text-gray-300 mx-auto mb-4" />
               <p className="text-[#3D5A73]">{t.common.noContent}</p>
             </div>
           ) : (
@@ -110,13 +109,12 @@ export default function FaqsPage() {
             </div>
           )}
 
-          {/* Still have questions */}
           <div className="mt-12 bg-gradient-to-br from-[#063B63] to-[#0877B8] rounded-2xl p-8 text-white text-center">
             <h3 className="text-xl font-bold mb-2">
-              {lang === 'hi' ? 'à¤”à¤° à¤ªà¥à¤°à¤¶à¥à¤¨ à¤¹à¥ˆà¤‚?' : 'Still Have Questions?'}
+              {lang === 'hi' ? 'और प्रश्न हैं?' : 'Still Have Questions?'}
             </h3>
             <p className="text-blue-100 text-sm mb-5">
-              {lang === 'hi' ? 'à¤¹à¤®à¤¸à¥‡ à¤¸à¥€à¤§à¥‡ à¤¸à¤‚à¤ªà¤°à¥à¤• à¤•à¤°à¥‡à¤‚à¥¤' : 'Contact us directly and we will be happy to help.'}
+              {lang === 'hi' ? 'हमसे सीधे संपर्क करें।' : 'Contact us directly and we will be happy to help.'}
             </p>
             <div className="flex flex-wrap gap-3 justify-center">
               <Link to="/contact" className="inline-flex items-center gap-2 bg-white text-[#063B63] font-bold px-5 py-2.5 rounded-full hover:shadow-lg transition-all text-sm">
@@ -133,5 +131,3 @@ export default function FaqsPage() {
     </>
   )
 }
-
-

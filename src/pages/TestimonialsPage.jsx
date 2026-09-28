@@ -1,7 +1,7 @@
 ﻿import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { Helmet } from 'react-helmet-async'
-import { Star, Send, CheckCircle } from 'lucide-react'
+import { Star, Send, CheckCircle, MessageSquare } from 'lucide-react'
 import { getPublishedTestimonials, submitTestimonial } from '../services/neurotherapyService'
 import { useLanguage } from '../lib/LanguageContext'
 import toast from 'react-hot-toast'
@@ -14,19 +14,6 @@ function StarRating({ rating = 5 }) {
     <div className="flex gap-0.5">
       {[1,2,3,4,5].map(i => (
         <Star key={i} size={15} className={i <= rating ? 'text-amber-400 fill-amber-400' : 'text-gray-300'} />
-      ))}
-    </div>
-  )
-}
-
-function StarSelector({ value, onChange }) {
-  return (
-    <div className="flex gap-1">
-      {[1,2,3,4,5].map(i => (
-        <button key={i} type="button" onClick={() => onChange(i)}
-          className={`text-2xl transition-transform hover:scale-110 ${i <= value ? 'â­' : 'â˜†'}`}>
-          {i <= value ? 'â­' : 'â˜†'}
-        </button>
       ))}
     </div>
   )
@@ -52,7 +39,7 @@ export default function TestimonialsPage() {
     const errs = {}
     if (!form.patient_name.trim()) errs.patient_name = t.appointment.required
     if (!form.testimonial.trim()) errs.testimonial = t.appointment.required
-    if (form.email && !form.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) errs.email = lang === 'hi' ? 'à¤…à¤®à¤¾à¤¨à¥à¤¯ à¤ˆà¤®à¥‡à¤²' : 'Invalid email'
+    if (form.email && !form.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) errs.email = lang === 'hi' ? 'अमान्य ईमेल' : 'Invalid email'
     setErrors(errs)
     return Object.keys(errs).length === 0
   }
@@ -66,7 +53,7 @@ export default function TestimonialsPage() {
       setSubmitted(true)
       setForm({ patient_name: '', email: '', phone: '', testimonial: '', rating: 5 })
     } catch (err) {
-      toast.error(lang === 'hi' ? 'à¤¸à¤¬à¤®à¤¿à¤Ÿ à¤•à¤°à¤¨à¥‡ à¤®à¥‡à¤‚ à¤¤à¥à¤°à¥à¤Ÿà¤¿à¥¤ à¤•à¥ƒà¤ªà¤¯à¤¾ à¤ªà¥à¤¨à¤ƒ à¤ªà¥à¤°à¤¯à¤¾à¤¸ à¤•à¤°à¥‡à¤‚à¥¤' : 'Error submitting. Please try again.')
+      toast.error(lang === 'hi' ? 'सबमिट करने में त्रुटि। कृपया पुनः प्रयास करें।' : 'Error submitting. Please try again.')
     } finally {
       setSubmitting(false)
     }
@@ -75,25 +62,24 @@ export default function TestimonialsPage() {
   return (
     <>
       <Helmet>
-        <title>{lang === 'hi' ? 'à¤ªà¥à¤°à¤¶à¤‚à¤¸à¤¾à¤ªà¤¤à¥à¤° â€“ Neurotherapist Naveen Sharma' : 'Testimonials â€“ Neurotherapist Naveen Sharma'}</title>
+        <title>{lang === 'hi' ? 'प्रशंसापत्र' : 'Testimonials'} - Neurotherapist Naveen Sharma</title>
         <meta name="description" content="Read patient testimonials about our neurotherapy home visit wellness service." />
       </Helmet>
 
       <div className="bg-gradient-to-br from-[#063B63] to-[#0877B8] text-white py-10 md:py-14 px-4">
         <div className="max-w-4xl mx-auto text-center">
           <span className="inline-block text-xs font-bold tracking-widest bg-white/15 rounded-full px-4 py-2 mb-4 text-blue-100">
-            {lang === 'hi' ? 'à¤ªà¥à¤°à¤¶à¤‚à¤¸à¤¾à¤ªà¤¤à¥à¤°' : 'Testimonials'}
+            {lang === 'hi' ? 'प्रशंसापत्र' : 'Testimonials'}
           </span>
           <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold mb-4">
-            {lang === 'hi' ? 'à¤°à¥‹à¤—à¤¿à¤¯à¥‹à¤‚ à¤•à¥‡ à¤…à¤¨à¥à¤­à¤µ' : 'Patient Experiences'}
+            {lang === 'hi' ? 'रोगियों के अनुभव' : 'Patient Experiences'}
           </h1>
           <p className="text-blue-100 text-base md:text-lg max-w-2xl mx-auto">
-            {lang === 'hi' ? 'à¤µà¤¾à¤¸à¥à¤¤à¤µà¤¿à¤• à¤…à¤¨à¥à¤­à¤µ, à¤µà¤¾à¤¸à¥à¤¤à¤µà¤¿à¤• à¤²à¥‹à¤—à¥‹à¤‚ à¤¸à¥‡' : 'Real experiences from people we have supported on their wellness journey'}
+            {lang === 'hi' ? 'वास्तविक अनुभव, वास्तविक लोगों से' : 'Real experiences from people we have supported on their wellness journey'}
           </p>
         </div>
       </div>
 
-      {/* Testimonials Grid */}
       <section className="py-10 md:py-16 bg-[#F5FAFC] min-h-[40vh]">
         <div className="max-w-7xl mx-auto px-4">
           {loading ? (
@@ -102,7 +88,7 @@ export default function TestimonialsPage() {
             </div>
           ) : testimonials.length === 0 ? (
             <div className="text-center py-20">
-              <div className="text-5xl mb-4">ðŸ’¬</div>
+              <MessageSquare size={48} className="text-gray-300 mx-auto mb-4" />
               <p className="text-[#3D5A73] text-lg">{t.common.noContent}</p>
             </div>
           ) : (
@@ -133,12 +119,11 @@ export default function TestimonialsPage() {
         </div>
       </section>
 
-      {/* Submit Feedback Form */}
       <section className="py-10 md:py-16 bg-white">
         <div className="max-w-2xl mx-auto px-4">
           <div className="text-center mb-8">
             <span className="inline-block text-xs font-bold tracking-widest text-[#159A8C] uppercase bg-teal-50 rounded-full px-4 py-1.5 mb-3">
-              {lang === 'hi' ? 'à¤…à¤ªà¤¨à¤¾ à¤…à¤¨à¥à¤­à¤µ à¤¸à¤¾à¤à¤¾ à¤•à¤°à¥‡à¤‚' : 'Share Your Experience'}
+              {lang === 'hi' ? 'अपना अनुभव साझा करें' : 'Share Your Experience'}
             </span>
             <h2 className="text-xl md:text-2xl font-bold text-[#063B63]">{t.testimonial.shareTitle}</h2>
             <p className="text-[#3D5A73] mt-2 text-sm">{t.testimonial.shareSubtitle}</p>
@@ -149,12 +134,12 @@ export default function TestimonialsPage() {
               className="bg-green-50 border border-green-200 rounded-2xl p-8 text-center">
               <CheckCircle size={48} className="text-green-500 mx-auto mb-4" />
               <h3 className="text-green-800 font-bold text-xl mb-2">
-                {lang === 'hi' ? 'à¤§à¤¨à¥à¤¯à¤µà¤¾à¤¦!' : 'Thank you!'}
+                {lang === 'hi' ? 'धन्यवाद!' : 'Thank you!'}
               </h3>
               <p className="text-green-700 text-sm leading-relaxed">{t.testimonial.success}</p>
               <button onClick={() => setSubmitted(false)}
                 className="mt-5 text-[#0877B8] text-sm font-semibold hover:underline">
-                {lang === 'hi' ? 'à¤¦à¥‚à¤¸à¤°à¥€ à¤ªà¥à¤°à¤¤à¤¿à¤•à¥à¤°à¤¿à¤¯à¤¾ à¤¸à¤¬à¤®à¤¿à¤Ÿ à¤•à¤°à¥‡à¤‚' : 'Submit Another Feedback'}
+                {lang === 'hi' ? 'दूसरी प्रतिक्रिया सबमिट करें' : 'Submit Another Feedback'}
               </button>
             </motion.div>
           ) : (
@@ -163,14 +148,14 @@ export default function TestimonialsPage() {
                 <div>
                   <label className="block text-sm font-semibold text-[#063B63] mb-1.5">{t.testimonial.name} *</label>
                   <input type="text" value={form.patient_name} onChange={e => setForm(f => ({...f, patient_name: e.target.value}))}
-                    placeholder={lang === 'hi' ? 'à¤†à¤ªà¤•à¤¾ à¤¨à¤¾à¤®' : 'Your name'}
+                    placeholder={lang === 'hi' ? 'आपका नाम' : 'Your name'}
                     className={`w-full px-4 py-3 rounded-xl border text-[#12304A] text-sm focus:outline-none focus:ring-2 focus:ring-[#0877B8]/30 focus:border-[#0877B8] transition-all ${errors.patient_name ? 'border-red-300 bg-red-50' : 'border-[#D4E8F0] bg-[#F5FAFC]'}`} />
                   {errors.patient_name && <p className="text-red-500 text-xs mt-1">{errors.patient_name}</p>}
                 </div>
                 <div>
                   <label className="block text-sm font-semibold text-[#063B63] mb-1.5">{t.testimonial.email}</label>
                   <input type="email" value={form.email} onChange={e => setForm(f => ({...f, email: e.target.value}))}
-                    placeholder={lang === 'hi' ? 'à¤ˆà¤®à¥‡à¤² (à¤µà¥ˆà¤•à¤²à¥à¤ªà¤¿à¤•)' : 'Email (optional)'}
+                    placeholder={lang === 'hi' ? 'ईमेल (वैकल्पिक)' : 'Email (optional)'}
                     className={`w-full px-4 py-3 rounded-xl border text-[#12304A] text-sm focus:outline-none focus:ring-2 focus:ring-[#0877B8]/30 focus:border-[#0877B8] transition-all ${errors.email ? 'border-red-300 bg-red-50' : 'border-[#D4E8F0] bg-[#F5FAFC]'}`} />
                   {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
                 </div>
@@ -178,13 +163,13 @@ export default function TestimonialsPage() {
               <div>
                 <label className="block text-sm font-semibold text-[#063B63] mb-1.5">{t.testimonial.phone}</label>
                 <input type="tel" value={form.phone} onChange={e => setForm(f => ({...f, phone: e.target.value}))}
-                  placeholder={lang === 'hi' ? 'à¤«à¥‹à¤¨ (à¤µà¥ˆà¤•à¤²à¥à¤ªà¤¿à¤•)' : 'Phone (optional)'}
+                  placeholder={lang === 'hi' ? 'फोन (वैकल्पिक)' : 'Phone (optional)'}
                   className="w-full px-4 py-3 rounded-xl border border-[#D4E8F0] bg-[#F5FAFC] text-[#12304A] text-sm focus:outline-none focus:ring-2 focus:ring-[#0877B8]/30 focus:border-[#0877B8] transition-all" />
               </div>
               <div>
                 <label className="block text-sm font-semibold text-[#063B63] mb-1.5">{t.testimonial.feedback} *</label>
                 <textarea value={form.testimonial} onChange={e => setForm(f => ({...f, testimonial: e.target.value}))}
-                  rows={4} placeholder={lang === 'hi' ? 'à¤…à¤ªà¤¨à¤¾ à¤…à¤¨à¥à¤­à¤µ à¤¸à¤¾à¤à¤¾ à¤•à¤°à¥‡à¤‚...' : 'Share your experience...'}
+                  rows={4} placeholder={lang === 'hi' ? 'अपना अनुभव साझा करें...' : 'Share your experience...'}
                   className={`w-full px-4 py-3 rounded-xl border text-[#12304A] text-sm focus:outline-none focus:ring-2 focus:ring-[#0877B8]/30 focus:border-[#0877B8] transition-all resize-none ${errors.testimonial ? 'border-red-300 bg-red-50' : 'border-[#D4E8F0] bg-[#F5FAFC]'}`} />
                 {errors.testimonial && <p className="text-red-500 text-xs mt-1">{errors.testimonial}</p>}
               </div>
@@ -193,8 +178,8 @@ export default function TestimonialsPage() {
                 <div className="flex gap-1">
                   {[1,2,3,4,5].map(i => (
                     <button key={i} type="button" onClick={() => setForm(f => ({...f, rating: i}))}
-                      className="text-2xl hover:scale-110 transition-transform">
-                      {i <= form.rating ? 'â­' : 'â˜†'}
+                      className="hover:scale-110 transition-transform">
+                      <Star size={22} className={i <= form.rating ? 'text-amber-400 fill-amber-400' : 'text-gray-300'} />
                     </button>
                   ))}
                 </div>
@@ -205,7 +190,7 @@ export default function TestimonialsPage() {
                 {t.testimonial.submit}
               </button>
               <p className="text-[#7A9BB5] text-xs text-center">
-                {lang === 'hi' ? '* à¤†à¤ªà¤•à¥€ à¤ªà¥à¤°à¤¤à¤¿à¤•à¥à¤°à¤¿à¤¯à¤¾ à¤ªà¥à¤°à¤•à¤¾à¤¶à¤¿à¤¤ à¤¹à¥‹à¤¨à¥‡ à¤¸à¥‡ à¤ªà¤¹à¤²à¥‡ à¤¸à¤®à¥€à¤•à¥à¤·à¤¾ à¤•à¥€ à¤œà¤¾à¤à¤—à¥€à¥¤' : '* Your feedback will be reviewed before being published.'}
+                {lang === 'hi' ? '* आपकी प्रतिक्रिया प्रकाशित होने से पहले समीक्षा की जाएगी।' : '* Your feedback will be reviewed before being published.'}
               </p>
             </form>
           )}
@@ -214,5 +199,3 @@ export default function TestimonialsPage() {
     </>
   )
 }
-
-

@@ -2,7 +2,7 @@
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { Helmet } from 'react-helmet-async'
-import { Calendar, MessageCircle } from 'lucide-react'
+import { Calendar, MessageCircle, Sparkles } from 'lucide-react'
 import { getPublishedBenefits, getWebsiteSettings } from '../services/neurotherapyService'
 import { useLanguage } from '../lib/LanguageContext'
 
@@ -28,20 +28,20 @@ export default function BenefitsPage() {
   return (
     <>
       <Helmet>
-        <title>{lang === 'hi' ? 'à¤²à¤¾à¤­ â€“ Neurotherapist Naveen Sharma' : 'Benefits â€“ Neurotherapist Naveen Sharma'}</title>
+        <title>{lang === 'hi' ? 'लाभ' : 'Benefits'} - Neurotherapist Naveen Sharma</title>
         <meta name="description" content="Benefits of our home visit neurotherapy wellness service." />
       </Helmet>
 
       <div className="bg-gradient-to-br from-[#063B63] to-[#159A8C] text-white py-10 md:py-14 px-4">
         <div className="max-w-4xl mx-auto text-center">
           <span className="inline-block text-xs font-bold tracking-widest bg-white/15 rounded-full px-4 py-2 mb-4 text-blue-100">
-            {lang === 'hi' ? 'à¤²à¤¾à¤­' : 'Benefits'}
+            {lang === 'hi' ? 'लाभ' : 'Benefits'}
           </span>
           <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold mb-4">
-            {lang === 'hi' ? 'à¤¹à¥‹à¤® à¤µà¤¿à¤œà¤¿à¤Ÿ à¤¦à¥‡à¤–à¤­à¤¾à¤² à¤•à¥‡ à¤²à¤¾à¤­' : 'Benefits of Home Visit Care'}
+            {lang === 'hi' ? 'होम विजिट देखभाल के लाभ' : 'Benefits of Home Visit Care'}
           </h1>
           <p className="text-blue-100 text-base md:text-lg max-w-2xl mx-auto">
-            {lang === 'hi' ? 'à¤œà¤¾à¤¨à¥‡à¤‚ à¤•à¥à¤¯à¥‹à¤‚ à¤¹à¤®à¤¾à¤°à¥€ à¤˜à¤°-à¤†à¤§à¤¾à¤°à¤¿à¤¤ à¤µà¥‡à¤²à¤¨à¥‡à¤¸ à¤¸à¥‡à¤µà¤¾ à¤à¤• à¤¬à¥‡à¤¹à¤¤à¤° à¤µà¤¿à¤•à¤²à¥à¤ª à¤¹à¥ˆ' : 'Discover why our home-based wellness approach makes quality care more accessible'}
+            {lang === 'hi' ? 'जानें क्यों हमारी घर-आधारित वेलनेस सेवा एक बेहतर विकल्प है' : 'Discover why our home-based wellness approach makes quality care more accessible'}
           </p>
         </div>
       </div>
@@ -60,7 +60,9 @@ export default function BenefitsPage() {
               {benefits.map(benefit => (
                 <motion.div key={benefit.id} variants={fadeUp}
                   className="bg-white rounded-2xl p-4 shadow-sm border border-blue-50 hover:shadow-md transition-all">
-                  <div className="text-5xl mb-4">{benefit.icon || 'âœ¨'}</div>
+                  <div className="text-5xl mb-4">
+                    {benefit.icon || <Sparkles size={40} className="text-[#0877B8]" />}
+                  </div>
                   {benefit.image && (
                     <img src={benefit.image} alt={benefit.title} className="w-full h-32 object-cover rounded-xl mb-4" loading="lazy" />
                   )}
@@ -80,10 +82,10 @@ export default function BenefitsPage() {
       <section className="py-12 bg-gradient-to-br from-[#159A8C] to-[#063B63] text-white">
         <div className="max-w-2xl mx-auto px-4 text-center">
           <h2 className="text-2xl font-bold mb-3">
-            {lang === 'hi' ? 'à¤‡à¤¨ à¤²à¤¾à¤­à¥‹à¤‚ à¤•à¤¾ à¤…à¤¨à¥à¤­à¤µ à¤•à¤°à¥‡à¤‚' : 'Experience These Benefits'}
+            {lang === 'hi' ? 'इन लाभों का अनुभव करें' : 'Experience These Benefits'}
           </h2>
           <p className="text-teal-100 mb-6">
-            {lang === 'hi' ? 'à¤†à¤œ à¤¹à¥€ à¤…à¤ªà¤¨à¤¾ à¤¹à¥‹à¤® à¤µà¤¿à¤œà¤¿à¤Ÿ à¤…à¤ªà¥‰à¤‡à¤‚à¤Ÿà¤®à¥‡à¤‚à¤Ÿ à¤¬à¥à¤• à¤•à¤°à¥‡à¤‚à¥¤' : 'Book your home visit appointment today.'}
+            {lang === 'hi' ? 'आज ही अपना होम विजिट अपॉइंटमेंट बुक करें।' : 'Book your home visit appointment today.'}
           </p>
           <div className="flex flex-wrap gap-3 justify-center">
             <Link to="/appointment" className="inline-flex items-center gap-2 bg-white text-[#063B63] font-bold px-6 py-3 rounded-full hover:shadow-lg transition-all">
@@ -99,5 +101,3 @@ export default function BenefitsPage() {
     </>
   )
 }
-
-

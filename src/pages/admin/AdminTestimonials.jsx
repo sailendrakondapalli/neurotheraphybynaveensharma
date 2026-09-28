@@ -128,7 +128,7 @@ export default function AdminTestimonials() {
               </div>
               <p className="text-[#3D5A73] text-xs leading-relaxed line-clamp-3 mb-3 italic">"{t.testimonial}"</p>
               {(t.email || t.phone) && (
-                <p className="text-[#7A9BB5] text-xs mb-3">{t.phone}{t.phone && t.email ? ' â€¢ ' : ''}{t.email}</p>
+                <p className="text-[#7A9BB5] text-xs mb-3">{t.phone}{t.phone && t.email ? ' • ' : ''}{t.email}</p>
               )}
               {/* Actions */}
               <div className="flex items-center justify-between border-t border-gray-50 pt-3">

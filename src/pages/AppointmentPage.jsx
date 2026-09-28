@@ -1,7 +1,7 @@
 ﻿import { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { motion } from 'framer-motion'
-import { Calendar, Send, CheckCircle, Phone, MessageCircle } from 'lucide-react'
+import { Calendar, Send, CheckCircle, Phone, MessageCircle, AlertTriangle } from 'lucide-react'
 import { submitAppointment, getPublishedServices, getWebsiteSettings } from '../services/neurotherapyService'
 import { useLanguage } from '../lib/LanguageContext'
 import toast from 'react-hot-toast'
@@ -34,7 +34,6 @@ export default function AppointmentPage() {
       .catch(console.error)
   }, [])
 
-  // If service preselected, match it
   useEffect(() => {
     if (preselectedService && services.length > 0) {
       const match = services.find(s => s.title === preselectedService || s.title_hi === preselectedService)
@@ -50,8 +49,8 @@ export default function AppointmentPage() {
     const errs = {}
     if (!form.name.trim()) errs.name = t.appointment.required
     if (!form.phone.trim()) errs.phone = t.appointment.required
-    if (!form.phone.match(/^[0-9+\s-]{7,15}$/)) errs.phone = lang === 'hi' ? 'à¤…à¤®à¤¾à¤¨à¥à¤¯ à¤«à¥‹à¤¨ à¤¨à¤‚à¤¬à¤°' : 'Invalid phone number'
-    if (form.email && !form.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) errs.email = lang === 'hi' ? 'à¤…à¤®à¤¾à¤¨à¥à¤¯ à¤ˆà¤®à¥‡à¤²' : 'Invalid email'
+    if (!form.phone.match(/^[0-9+\s-]{7,15}$/)) errs.phone = lang === 'hi' ? 'अमान्य फोन नंबर' : 'Invalid phone number'
+    if (form.email && !form.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) errs.email = lang === 'hi' ? 'अमान्य ईमेल' : 'Invalid email'
     setErrors(errs)
     return Object.keys(errs).length === 0
   }
@@ -84,7 +83,7 @@ export default function AppointmentPage() {
       })
       setSubmitted(true)
     } catch (err) {
-      toast.error(lang === 'hi' ? 'à¤¸à¤¬à¤®à¤¿à¤Ÿ à¤•à¤°à¤¨à¥‡ à¤®à¥‡à¤‚ à¤¤à¥à¤°à¥à¤Ÿà¤¿à¥¤ à¤•à¥ƒà¤ªà¤¯à¤¾ à¤ªà¥à¤¨à¤ƒ à¤ªà¥à¤°à¤¯à¤¾à¤¸ à¤•à¤°à¥‡à¤‚à¥¤' : 'Error submitting. Please try again.')
+      toast.error(lang === 'hi' ? 'सबमिट करने में त्रुटि। कृपया पुनः प्रयास करें।' : 'Error submitting. Please try again.')
     } finally {
       setSubmitting(false)
     }
@@ -96,7 +95,7 @@ export default function AppointmentPage() {
   return (
     <>
       <Helmet>
-        <title>{lang === 'hi' ? 'à¤…à¤ªà¥‰à¤‡à¤‚à¤Ÿà¤®à¥‡à¤‚à¤Ÿ â€“ Neurotherapist Naveen Sharma' : 'Book Appointment â€“ Neurotherapist Naveen Sharma'}</title>
+        <title>{t.appointment.title} - Neurotherapist Naveen Sharma</title>
         <meta name="description" content="Book a neurotherapy home visit appointment online." />
       </Helmet>
 
@@ -105,8 +104,8 @@ export default function AppointmentPage() {
           <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold mb-4">{t.appointment.title}</h1>
           <p className="text-blue-100 text-base md:text-lg max-w-2xl mx-auto">{t.appointment.subtitle}</p>
           <div className="flex items-center justify-center gap-4 mt-5 flex-wrap">
-            <span className="bg-white/10 border border-white/20 rounded-full px-4 py-2 text-sm font-semibold">ðŸ  {t.common.homeVisitOnly}</span>
-            <span className="bg-white/10 border border-white/20 rounded-full px-4 py-2 text-sm font-semibold">ðŸ“… {t.common.appointmentBased}</span>
+            <span className="bg-white/10 border border-white/20 rounded-full px-4 py-2 text-sm font-semibold">{t.common.homeVisitOnly}</span>
+            <span className="bg-white/10 border border-white/20 rounded-full px-4 py-2 text-sm font-semibold">{t.common.appointmentBased}</span>
           </div>
         </div>
       </div>
@@ -114,14 +113,13 @@ export default function AppointmentPage() {
       <section className="py-10 md:py-16 bg-[#F5FAFC]">
         <div className="max-w-5xl mx-auto px-4">
           <div className="grid lg:grid-cols-3 gap-8">
-            {/* Form */}
             <div className="lg:col-span-2">
               {submitted ? (
                 <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}
                   className="bg-white rounded-2xl border border-green-100 p-10 text-center shadow-sm">
                   <CheckCircle size={60} className="text-green-500 mx-auto mb-4" />
                   <h2 className="text-[#063B63] font-bold text-2xl mb-3">
-                    {lang === 'hi' ? 'à¤ªà¥‚à¤›à¤¤à¤¾à¤› à¤ªà¥à¤°à¤¾à¤ªà¥à¤¤ à¤¹à¥à¤ˆ!' : 'Enquiry Received!'}
+                    {lang === 'hi' ? 'पूछताछ प्राप्त हुई!' : 'Enquiry Received!'}
                   </h2>
                   <p className="text-[#3D5A73] leading-relaxed">{t.appointment.success}</p>
                   <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
@@ -136,13 +134,13 @@ export default function AppointmentPage() {
                 </motion.div>
               ) : (
                 <form onSubmit={handleSubmit} className="bg-white rounded-2xl border border-blue-100 p-6 shadow-sm space-y-5">
-                  <h2 className="text-[#063B63] font-bold text-xl mb-1">{lang === 'hi' ? 'à¤…à¤ªà¤¨à¥€ à¤œà¤¾à¤¨à¤•à¤¾à¤°à¥€ à¤­à¤°à¥‡à¤‚' : 'Fill in Your Details'}</h2>
+                  <h2 className="text-[#063B63] font-bold text-xl mb-1">{lang === 'hi' ? 'अपनी जानकारी भरें' : 'Fill in Your Details'}</h2>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-sm font-semibold text-[#063B63] mb-1.5">{t.appointment.name} *</label>
                       <input type="text" name="name" value={form.name} onChange={handleChange}
-                        placeholder={lang === 'hi' ? 'à¤†à¤ªà¤•à¤¾ à¤ªà¥‚à¤°à¤¾ à¤¨à¤¾à¤®' : 'Your full name'}
+                        placeholder={lang === 'hi' ? 'आपका पूरा नाम' : 'Your full name'}
                         className={inputCls('name')} />
                       {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
                     </div>
@@ -158,7 +156,7 @@ export default function AppointmentPage() {
                   <div>
                     <label className="block text-sm font-semibold text-[#063B63] mb-1.5">{t.appointment.email}</label>
                     <input type="email" name="email" value={form.email} onChange={handleChange}
-                      placeholder={lang === 'hi' ? 'à¤ˆà¤®à¥‡à¤² (à¤µà¥ˆà¤•à¤²à¥à¤ªà¤¿à¤•)' : 'Email (optional)'}
+                      placeholder={lang === 'hi' ? 'ईमेल (वैकल्पिक)' : 'Email (optional)'}
                       className={inputCls('email')} />
                     {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
                   </div>
@@ -167,7 +165,7 @@ export default function AppointmentPage() {
                     <label className="block text-sm font-semibold text-[#063B63] mb-1.5">{t.appointment.service}</label>
                     <select name="service_id" value={form.service_id} onChange={handleChange}
                       className="w-full px-4 py-3 rounded-xl border border-[#D4E8F0] bg-[#F5FAFC] text-[#12304A] text-sm focus:outline-none focus:ring-2 focus:ring-[#0877B8]/30 focus:border-[#0877B8] transition-all">
-                      <option value="">{lang === 'hi' ? 'à¤¸à¥‡à¤µà¤¾ à¤šà¥à¤¨à¥‡à¤‚ (à¤µà¥ˆà¤•à¤²à¥à¤ªà¤¿à¤•)' : 'Select a service (optional)'}</option>
+                      <option value="">{lang === 'hi' ? 'सेवा चुनें (वैकल्पिक)' : 'Select a service (optional)'}</option>
                       {services.map(s => (
                         <option key={s.id} value={s.id}>{lang === 'hi' && s.title_hi ? s.title_hi : s.title}</option>
                       ))}
@@ -185,8 +183,8 @@ export default function AppointmentPage() {
                       <label className="block text-sm font-semibold text-[#063B63] mb-1.5">{t.appointment.time}</label>
                       <select name="preferred_time" value={form.preferred_time} onChange={handleChange}
                         className="w-full px-4 py-3 rounded-xl border border-[#D4E8F0] bg-[#F5FAFC] text-[#12304A] text-sm focus:outline-none focus:ring-2 focus:ring-[#0877B8]/30 focus:border-[#0877B8] transition-all">
-                        <option value="">{lang === 'hi' ? 'à¤¸à¤®à¤¯ à¤šà¥à¤¨à¥‡à¤‚' : 'Select a time'}</option>
-                        {TIME_SLOTS.map(t => <option key={t} value={t}>{t}</option>)}
+                        <option value="">{lang === 'hi' ? 'समय चुनें' : 'Select a time'}</option>
+                        {TIME_SLOTS.map(ts => <option key={ts} value={ts}>{ts}</option>)}
                       </select>
                     </div>
                   </div>
@@ -194,7 +192,7 @@ export default function AppointmentPage() {
                   <div>
                     <label className="block text-sm font-semibold text-[#063B63] mb-1.5">{t.appointment.message}</label>
                     <textarea name="message" value={form.message} onChange={handleChange}
-                      rows={4} placeholder={lang === 'hi' ? 'à¤•à¥‹à¤ˆ à¤…à¤¤à¤¿à¤°à¤¿à¤•à¥à¤¤ à¤œà¤¾à¤¨à¤•à¤¾à¤°à¥€...' : 'Any additional information...'}
+                      rows={4} placeholder={lang === 'hi' ? 'कोई अतिरिक्त जानकारी...' : 'Any additional information...'}
                       className="w-full px-4 py-3 rounded-xl border border-[#D4E8F0] bg-[#F5FAFC] text-[#12304A] text-sm focus:outline-none focus:ring-2 focus:ring-[#0877B8]/30 focus:border-[#0877B8] transition-all resize-none" />
                   </div>
 
@@ -205,16 +203,15 @@ export default function AppointmentPage() {
                   </button>
 
                   <p className="text-[#7A9BB5] text-xs text-center">
-                    {lang === 'hi' ? '* à¤¹à¤® à¤œà¤²à¥à¤¦ à¤¹à¥€ à¤†à¤ªà¤¸à¥‡ à¤¸à¤‚à¤ªà¤°à¥à¤• à¤•à¤°à¥‡à¤‚à¤—à¥‡à¥¤' : '* We will contact you to confirm your appointment.'}
+                    {lang === 'hi' ? '* हम जल्द ही आपसे संपर्क करेंगे।' : '* We will contact you to confirm your appointment.'}
                   </p>
                 </form>
               )}
             </div>
 
-            {/* Sidebar */}
             <div className="space-y-5">
               <div className="bg-white rounded-2xl p-5 shadow-sm border border-blue-50">
-                <h3 className="font-bold text-[#063B63] mb-4">{lang === 'hi' ? 'à¤¸à¥€à¤§à¥‡ à¤¸à¤‚à¤ªà¤°à¥à¤• à¤•à¤°à¥‡à¤‚' : 'Contact Directly'}</h3>
+                <h3 className="font-bold text-[#063B63] mb-4">{lang === 'hi' ? 'सीधे संपर्क करें' : 'Contact Directly'}</h3>
                 <a href={`tel:${phone}`}
                   className="flex items-center gap-3 bg-[#063B63] text-white rounded-xl p-3.5 mb-3 hover:bg-[#0877B8] transition-colors">
                   <Phone size={18} />
@@ -234,30 +231,33 @@ export default function AppointmentPage() {
               </div>
 
               <div className="bg-white rounded-2xl p-5 shadow-sm border border-blue-50">
-                <h3 className="font-bold text-[#063B63] mb-3 text-sm">{lang === 'hi' ? 'à¤ªà¥à¤°à¤•à¥à¤°à¤¿à¤¯à¤¾' : 'How It Works'}</h3>
+                <h3 className="font-bold text-[#063B63] mb-3 text-sm">{lang === 'hi' ? 'प्रक्रिया' : 'How It Works'}</h3>
                 <div className="space-y-3">
                   {[
-                    { n: 1, text: lang === 'hi' ? 'à¤«à¥‰à¤°à¥à¤® à¤­à¤°à¥‡à¤‚' : 'Fill the form' },
-                    { n: 2, text: lang === 'hi' ? 'à¤¹à¤® à¤†à¤ªà¤¸à¥‡ à¤¸à¤‚à¤ªà¤°à¥à¤• à¤•à¤°à¤¤à¥‡ à¤¹à¥ˆà¤‚' : 'We contact you' },
-                    { n: 3, text: lang === 'hi' ? 'à¤…à¤ªà¥‰à¤‡à¤‚à¤Ÿà¤®à¥‡à¤‚à¤Ÿ à¤¤à¤¯ à¤¹à¥‹à¤¤à¥€ à¤¹à¥ˆ' : 'Appointment confirmed' },
-                    { n: 4, text: lang === 'hi' ? 'à¤¹à¤® à¤†à¤ªà¤•à¥‡ à¤˜à¤° à¤†à¤¤à¥‡ à¤¹à¥ˆà¤‚' : 'We visit your home' },
-                  ].map(step => (
-                    <div key={step.n} className="flex items-center gap-3">
+                    lang === 'hi' ? 'फॉर्म भरें' : 'Fill the form',
+                    lang === 'hi' ? 'हम आपसे संपर्क करते हैं' : 'We contact you',
+                    lang === 'hi' ? 'अपॉइंटमेंट तय होती है' : 'Appointment confirmed',
+                    lang === 'hi' ? 'हम आपके घर आते हैं' : 'We visit your home',
+                  ].map((text, i) => (
+                    <div key={i} className="flex items-center gap-3">
                       <div className="w-7 h-7 rounded-full bg-gradient-to-br from-[#063B63] to-[#0877B8] text-white text-xs font-bold flex items-center justify-center flex-shrink-0">
-                        {step.n}
+                        {i + 1}
                       </div>
-                      <span className="text-[#3D5A73] text-sm">{step.text}</span>
+                      <span className="text-[#3D5A73] text-sm">{text}</span>
                     </div>
                   ))}
                 </div>
               </div>
 
               <div className="bg-amber-50 border border-amber-200 rounded-2xl p-5">
-                <p className="text-amber-800 text-xs leading-relaxed">
-                  âš ï¸ {lang === 'hi'
-                    ? 'à¤¯à¤¹ à¤à¤• à¤¹à¥‹à¤® à¤µà¤¿à¤œà¤¿à¤Ÿ à¤¸à¥‡à¤µà¤¾ à¤¹à¥ˆà¥¤ à¤•à¥‹à¤ˆ à¤¸à¤¾à¤°à¥à¤µà¤œà¤¨à¤¿à¤• à¤•à¥à¤²à¤¿à¤¨à¤¿à¤• à¤ªà¤¤à¤¾ à¤¨à¤¹à¥€à¤‚ à¤¹à¥ˆà¥¤ à¤¸à¤­à¥€ à¤¸à¤¤à¥à¤° à¤ªà¥‚à¤°à¥à¤µ à¤…à¤ªà¥‰à¤‡à¤‚à¤Ÿà¤®à¥‡à¤‚à¤Ÿ à¤ªà¤° à¤†à¤¯à¥‹à¤œà¤¿à¤¤ à¤•à¤¿à¤ à¤œà¤¾à¤¤à¥‡ à¤¹à¥ˆà¤‚à¥¤'
-                    : 'This is a home visit service. There is no public clinic address. All sessions are by prior appointment only.'}
-                </p>
+                <div className="flex items-start gap-2">
+                  <AlertTriangle size={16} className="text-amber-600 flex-shrink-0 mt-0.5" />
+                  <p className="text-amber-800 text-xs leading-relaxed">
+                    {lang === 'hi'
+                      ? 'यह एक होम विजिट सेवा है। कोई सार्वजनिक क्लिनिक पता नहीं है। सभी सत्र पूर्व अपॉइंटमेंट पर आयोजित किए जाते हैं।'
+                      : 'This is a home visit service. There is no public clinic address. All sessions are by prior appointment only.'}
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -266,5 +266,3 @@ export default function AppointmentPage() {
     </>
   )
 }
-
-

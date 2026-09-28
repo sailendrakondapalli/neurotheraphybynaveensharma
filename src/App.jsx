@@ -5,9 +5,11 @@ import { Toaster } from 'react-hot-toast'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import WhatsAppBot from './components/WhatsAppBot'
+import FlashNewsPopup from './components/FlashNewsPopup'
 import AdminRoute from './components/AdminRoute'
 import AdminLayout from './components/admin/AdminLayout'
 import ErrorBoundary from './components/ErrorBoundary'
+import { HeartPulse } from 'lucide-react'
 import { useAuthStore } from './store/authStore'
 import { LanguageProvider } from './lib/LanguageContext'
 
@@ -24,6 +26,7 @@ const VideosPage = lazy(() => import('./pages/VideosPage'))
 const FaqsPage = lazy(() => import('./pages/FaqsPage'))
 const ContactPage = lazy(() => import('./pages/ContactPage'))
 const AppointmentPage = lazy(() => import('./pages/AppointmentPage'))
+const FlashNewsPage = lazy(() => import('./pages/FlashNewsPage'))
 const AuthCallbackPage = lazy(() => import('./pages/AuthCallbackPage'))
 
 // Admin pages
@@ -38,6 +41,7 @@ const AdminAppointments = lazy(() => import('./pages/admin/AdminAppointments'))
 const AdminSettings = lazy(() => import('./pages/admin/AdminSettings'))
 const AdminAbout = lazy(() => import('./pages/admin/AdminAbout'))
 const AdminNeurotherapy = lazy(() => import('./pages/admin/AdminNeurotherapy'))
+const AdminFlashNews = lazy(() => import('./pages/admin/AdminFlashNews'))
 
 const PageLoader = () => (
   <div className="min-h-[60vh] flex items-center justify-center">
@@ -83,6 +87,7 @@ export default function App() {
                         <Route path="settings" element={<AdminSettings />} />
                         <Route path="about" element={<AdminAbout />} />
                         <Route path="neurotherapy" element={<AdminNeurotherapy />} />
+                        <Route path="flash-news" element={<AdminFlashNews />} />
                       </Routes>
                     </Suspense>
                   </ErrorBoundary>
@@ -90,7 +95,7 @@ export default function App() {
               </AdminRoute>
             } />
 
-            {/* Admin login â€” redirect straight to admin (no auth required) */}
+            {/* Admin login - redirect straight to admin (no auth required) */}
             <Route path="/login" element={<Navigate to="/admin" replace />} />
             <Route path="/auth/callback" element={
               <Suspense fallback={<PageLoader />}>
@@ -118,10 +123,11 @@ export default function App() {
                         <Route path="/faqs" element={<FaqsPage />} />
                         <Route path="/contact" element={<ContactPage />} />
                         <Route path="/appointment" element={<AppointmentPage />} />
+                        <Route path="/announcements" element={<FlashNewsPage />} />
                         {/* Fallback */}
                         <Route path="*" element={
                           <div className="min-h-[60vh] flex items-center justify-center flex-col gap-4">
-                            <div className="text-6xl">ðŸ¥</div>
+                            <HeartPulse size={56} className="text-[#0877B8] mx-auto" />
                             <h1 className="text-2xl font-bold text-[#063B63]">Page Not Found</h1>
                             <a href="/" className="text-[#0877B8] font-semibold hover:underline">Return Home</a>
                           </div>
@@ -132,6 +138,7 @@ export default function App() {
                 </main>
                 <Footer />
                 <WhatsAppBot />
+                <FlashNewsPopup />
               </div>
             } />
           </Routes>

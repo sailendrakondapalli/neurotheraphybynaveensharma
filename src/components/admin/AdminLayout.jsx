@@ -3,13 +3,14 @@ import { Link, useLocation, useNavigate } from "react-router-dom"
 import { motion, AnimatePresence } from "framer-motion"
 import {
   LayoutDashboard, Stethoscope, Star, Image, Video, HelpCircle,
-  Calendar, Settings, Menu, X, ChevronRight, Globe, Heart, Info, Brain
+  Calendar, Settings, Menu, X, ChevronRight, Globe, Heart, Info, Brain, Megaphone
 } from "lucide-react"
 
 const NAV = [
   { path: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
   { path: "/admin/about", label: "About Page", icon: Info },
   { path: "/admin/neurotherapy", label: "Neurotherapy Page", icon: Brain },
+  { path: "/admin/flash-news", label: "Flash News", icon: Megaphone },
   { path: "/admin/services", label: "Services", icon: Stethoscope },
   { path: "/admin/benefits", label: "Benefits", icon: Heart },
   { path: "/admin/testimonials", label: "Testimonials", icon: Star },
@@ -30,9 +31,7 @@ function Sidebar({ pathname, onNavClick }) {
       className="flex-shrink-0 bg-[#063B63] flex flex-col overflow-hidden">
       <div className="p-5 border-b border-white/10">
         <Link to="/admin" onClick={onNavClick} className="flex items-center gap-2 select-none">
-          <div className="w-8 h-8 rounded-full bg-white/15 flex items-center justify-center">
-            <Stethoscope size={16} className="text-white" />
-          </div>
+          <img src="/logo.png" alt="Logo" className="w-8 h-8 rounded-full object-cover flex-shrink-0" />
           <div>
             <span className="text-white font-bold text-sm block leading-tight">Neurotherapist Naveen Sharma</span>
             <span className="text-blue-300 text-xs">Admin Panel</span>

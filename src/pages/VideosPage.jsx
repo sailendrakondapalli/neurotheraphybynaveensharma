@@ -1,7 +1,7 @@
 ﻿import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Helmet } from 'react-helmet-async'
-import { Play, X } from 'lucide-react'
+import { Play, X, Video as VideoIcon } from 'lucide-react'
 import { getPublishedVideos } from '../services/neurotherapyService'
 import { getYouTubeThumbnail, getYouTubeEmbedUrl } from '../services/uploadService'
 import { useLanguage } from '../lib/LanguageContext'
@@ -42,14 +42,14 @@ export default function VideosPage() {
   return (
     <>
       <Helmet>
-        <title>{lang === 'hi' ? 'à¤µà¥€à¤¡à¤¿à¤¯à¥‹ â€“ Neurotherapist Naveen Sharma' : 'Videos â€“ Neurotherapist Naveen Sharma'}</title>
+        <title>{lang === 'hi' ? 'वीडियो' : 'Videos'} - Neurotherapist Naveen Sharma</title>
         <meta name="description" content="Informational neurotherapy wellness videos." />
       </Helmet>
 
       <div className="bg-gradient-to-br from-[#063B63] to-[#0877B8] text-white py-14 px-4">
         <div className="max-w-4xl mx-auto text-center">
-          <h1 className="text-3xl md:text-5xl font-bold mb-4">{lang === 'hi' ? 'à¤µà¥€à¤¡à¤¿à¤¯à¥‹' : 'Videos'}</h1>
-          <p className="text-blue-100 text-lg">{lang === 'hi' ? 'à¤œà¤¾à¤¨à¤•à¤¾à¤°à¥€à¤ªà¥‚à¤°à¥à¤£ à¤µà¥‡à¤²à¤¨à¥‡à¤¸ à¤µà¥€à¤¡à¤¿à¤¯à¥‹' : 'Informational wellness videos'}</p>
+          <h1 className="text-3xl md:text-5xl font-bold mb-4">{lang === 'hi' ? 'वीडियो' : 'Videos'}</h1>
+          <p className="text-blue-100 text-lg">{lang === 'hi' ? 'जानकारीपूर्ण वेलनेस वीडियो' : 'Informational wellness videos'}</p>
         </div>
       </div>
 
@@ -58,7 +58,7 @@ export default function VideosPage() {
           <div className="max-w-7xl mx-auto flex items-center gap-2 overflow-x-auto pb-1">
             <button onClick={() => setActiveCategory('all')}
               className={`flex-shrink-0 px-4 py-2 rounded-full text-sm font-semibold transition-all ${activeCategory === 'all' ? 'bg-[#063B63] text-white' : 'bg-gray-100 text-[#3D5A73] hover:bg-gray-200'}`}>
-              {lang === 'hi' ? 'à¤¸à¤­à¥€' : 'All'}
+              {lang === 'hi' ? 'सभी' : 'All'}
             </button>
             {categories.map(cat => (
               <button key={cat} onClick={() => setActiveCategory(cat)}
@@ -78,7 +78,7 @@ export default function VideosPage() {
             </div>
           ) : filtered.length === 0 ? (
             <div className="text-center py-20">
-              <div className="text-5xl mb-4">ðŸŽ¥</div>
+              <VideoIcon size={48} className="text-gray-300 mx-auto mb-4" />
               <p className="text-[#3D5A73]">{t.common.noContent}</p>
             </div>
           ) : (
@@ -120,7 +120,6 @@ export default function VideosPage() {
         </div>
       </section>
 
-      {/* Video Modal */}
       <AnimatePresence>
         {activeVideo && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
@@ -159,5 +158,3 @@ export default function VideosPage() {
     </>
   )
 }
-
-

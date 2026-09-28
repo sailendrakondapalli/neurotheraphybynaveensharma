@@ -138,7 +138,7 @@ export default function AdminGallery() {
                   <div className="text-center py-4">
                     <Upload size={28} className="text-gray-300 mx-auto mb-2" />
                     <p className="text-[#3D5A73] text-sm font-medium">Click to upload image from device</p>
-                    <p className="text-[#7A9BB5] text-xs mt-1">JPG, PNG, WEBP â€” max 5MB</p>
+                    <p className="text-[#7A9BB5] text-xs mt-1">JPG, PNG, WEBP — max 5MB</p>
                   </div>
                 )}
                 <div className="flex items-center gap-2 mt-3">

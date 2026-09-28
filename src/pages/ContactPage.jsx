@@ -26,7 +26,7 @@ export default function ContactPage() {
     {
       icon: <Phone size={24} className="text-white" />,
       color: 'from-[#063B63] to-[#0877B8]',
-      label: lang === 'hi' ? 'à¤•à¥‰à¤² à¤•à¤°à¥‡à¤‚' : 'Call Us',
+      label: lang === 'hi' ? 'कॉल करें' : 'Call Us',
       value: phone,
       action: `tel:${phone}`,
       btnText: t.common.callNow,
@@ -38,17 +38,17 @@ export default function ContactPage() {
       label: 'WhatsApp',
       value: whatsapp,
       action: whatsappLink,
-      btnText: lang === 'hi' ? 'à¤µà¥à¤¹à¤¾à¤Ÿà¥à¤¸à¤à¤ª à¤ªà¤° à¤¸à¤‚à¤¦à¥‡à¤¶ à¤­à¥‡à¤œà¥‡à¤‚' : 'Send WhatsApp Message',
+      btnText: lang === 'hi' ? 'व्हाट्सएप पर संदेश भेजें' : 'Send WhatsApp Message',
       btnColor: 'bg-[#25D366] hover:bg-[#128C7E]',
       external: true,
     },
     {
       icon: <Mail size={24} className="text-white" />,
       color: 'from-[#159A8C] to-[#0877B8]',
-      label: lang === 'hi' ? 'à¤ˆà¤®à¥‡à¤² à¤•à¤°à¥‡à¤‚' : 'Email Us',
+      label: lang === 'hi' ? 'ईमेल करें' : 'Email Us',
       value: email,
       action: `mailto:${email}`,
-      btnText: lang === 'hi' ? 'à¤ˆà¤®à¥‡à¤² à¤­à¥‡à¤œà¥‡à¤‚' : 'Send Email',
+      btnText: lang === 'hi' ? 'ईमेल भेजें' : 'Send Email',
       btnColor: 'bg-[#159A8C] hover:bg-[#0877B8]',
     },
   ]
@@ -56,26 +56,25 @@ export default function ContactPage() {
   return (
     <>
       <Helmet>
-        <title>{lang === 'hi' ? 'à¤¸à¤‚à¤ªà¤°à¥à¤• â€“ Neurotherapist Naveen Sharma' : 'Contact â€“ Neurotherapist Naveen Sharma'}</title>
+        <title>{lang === 'hi' ? 'संपर्क' : 'Contact'} - Neurotherapist Naveen Sharma</title>
         <meta name="description" content="Contact us for neurotherapy home visit appointment enquiries." />
       </Helmet>
 
       <div className="bg-gradient-to-br from-[#063B63] to-[#0877B8] text-white py-10 md:py-14 px-4">
         <div className="max-w-4xl mx-auto text-center">
-          <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold mb-4">{lang === 'hi' ? 'à¤¸à¤‚à¤ªà¤°à¥à¤• à¤•à¤°à¥‡à¤‚' : 'Contact Us'}</h1>
+          <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold mb-4">{lang === 'hi' ? 'संपर्क करें' : 'Contact Us'}</h1>
           <p className="text-blue-100 text-base md:text-lg max-w-2xl mx-auto">
-            {lang === 'hi' ? 'à¤…à¤ªà¥‰à¤‡à¤‚à¤Ÿà¤®à¥‡à¤‚à¤Ÿ à¤¬à¥à¤• à¤•à¤°à¤¨à¥‡ à¤¯à¤¾ à¤ªà¥à¤°à¤¶à¥à¤¨ à¤ªà¥‚à¤›à¤¨à¥‡ à¤•à¥‡ à¤²à¤¿à¤ à¤¹à¤®à¤¸à¥‡ à¤¸à¤‚à¤ªà¤°à¥à¤• à¤•à¤°à¥‡à¤‚' : 'Get in touch to book an appointment or ask us anything'}
+            {lang === 'hi' ? 'अपॉइंटमेंट बुक करने या प्रश्न पूछने के लिए हमसे संपर्क करें' : 'Get in touch to book an appointment or ask us anything'}
           </p>
           <div className="flex items-center justify-center gap-4 mt-5 flex-wrap">
-            <span className="bg-white/10 border border-white/20 rounded-full px-4 py-2 text-sm font-semibold">ðŸ  {t.common.homeVisitOnly}</span>
-            <span className="bg-white/10 border border-white/20 rounded-full px-4 py-2 text-sm font-semibold">ðŸ“… {t.common.appointmentBased}</span>
+            <span className="bg-white/10 border border-white/20 rounded-full px-4 py-2 text-sm font-semibold">{t.common.homeVisitOnly}</span>
+            <span className="bg-white/10 border border-white/20 rounded-full px-4 py-2 text-sm font-semibold">{t.common.appointmentBased}</span>
           </div>
         </div>
       </div>
 
       <section className="py-10 md:py-16 bg-[#F5FAFC]">
         <div className="max-w-5xl mx-auto px-4">
-          {/* Contact cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-10">
             {contactItems.map((item, i) => (
               <a key={i} href={item.action} target={item.external ? '_blank' : undefined} rel={item.external ? 'noopener noreferrer' : undefined}
@@ -92,19 +91,17 @@ export default function ContactPage() {
             ))}
           </div>
 
-          {/* Additional info */}
           <div className="grid md:grid-cols-2 gap-5">
-            {/* Hours & Area */}
             <div className="bg-white rounded-2xl p-6 shadow-sm border border-blue-50">
               <h3 className="font-bold text-[#063B63] text-lg mb-4">
-                {lang === 'hi' ? 'à¤¸à¤®à¤¯ à¤”à¤° à¤¸à¥‡à¤µà¤¾ à¤•à¥à¤·à¥‡à¤¤à¥à¤°' : 'Hours & Service Area'}
+                {lang === 'hi' ? 'समय और सेवा क्षेत्र' : 'Hours & Service Area'}
               </h3>
               <div className="space-y-4">
                 {(contact.appointment_hours || settings.appointment_hours) && (
                   <div className="flex items-start gap-3">
                     <Clock size={18} className="text-[#0877B8] flex-shrink-0 mt-0.5" />
                     <div>
-                      <p className="text-[#3D5A73] text-sm font-medium">{lang === 'hi' ? 'à¤…à¤ªà¥‰à¤‡à¤‚à¤Ÿà¤®à¥‡à¤‚à¤Ÿ à¤¸à¤®à¤¯' : 'Appointment Hours'}</p>
+                      <p className="text-[#3D5A73] text-sm font-medium">{lang === 'hi' ? 'अपॉइंटमेंट समय' : 'Appointment Hours'}</p>
                       <p className="text-[#063B63] font-semibold text-sm">{contact.appointment_hours || settings.appointment_hours}</p>
                     </div>
                   </div>
@@ -113,7 +110,7 @@ export default function ContactPage() {
                   <div className="flex items-start gap-3">
                     <MessageCircle size={18} className="text-[#159A8C] flex-shrink-0 mt-0.5" />
                     <div>
-                      <p className="text-[#3D5A73] text-sm font-medium">{lang === 'hi' ? 'à¤ªà¥à¤°à¤¤à¤¿à¤•à¥à¤°à¤¿à¤¯à¤¾ à¤¸à¤®à¤¯' : 'Response Time'}</p>
+                      <p className="text-[#3D5A73] text-sm font-medium">{lang === 'hi' ? 'प्रतिक्रिया समय' : 'Response Time'}</p>
                       <p className="text-[#063B63] font-semibold text-sm">{contact.response_time}</p>
                     </div>
                   </div>
@@ -122,7 +119,7 @@ export default function ContactPage() {
                   <div className="flex items-start gap-3">
                     <MapPin size={18} className="text-[#159447] flex-shrink-0 mt-0.5" />
                     <div>
-                      <p className="text-[#3D5A73] text-sm font-medium">{lang === 'hi' ? 'à¤¸à¥‡à¤µà¤¾ à¤•à¥à¤·à¥‡à¤¤à¥à¤°' : 'Service Area'}</p>
+                      <p className="text-[#3D5A73] text-sm font-medium">{lang === 'hi' ? 'सेवा क्षेत्र' : 'Service Area'}</p>
                       <p className="text-[#063B63] font-semibold text-sm">{contact.service_area || settings.service_area}</p>
                     </div>
                   </div>
@@ -130,32 +127,30 @@ export default function ContactPage() {
               </div>
             </div>
 
-            {/* Important notice */}
             <div className="bg-white rounded-2xl p-6 shadow-sm border border-blue-50">
               <h3 className="font-bold text-[#063B63] text-lg mb-4">
-                {lang === 'hi' ? 'à¤®à¤¹à¤¤à¥à¤µà¤ªà¥‚à¤°à¥à¤£ à¤œà¤¾à¤¨à¤•à¤¾à¤°à¥€' : 'Important Information'}
+                {lang === 'hi' ? 'महत्वपूर्ण जानकारी' : 'Important Information'}
               </h3>
               <div className="bg-blue-50 rounded-xl p-4 mb-4">
                 <div className="flex items-center gap-2 text-[#063B63] font-bold text-sm mb-2">
-                  ðŸ  {t.common.homeVisitOnly}
+                  {t.common.homeVisitOnly}
                 </div>
                 <p className="text-[#3D5A73] text-xs leading-relaxed">
                   {contact.note || (lang === 'hi'
-                    ? 'à¤¯à¤¹ à¤à¤• à¤•à¥‡à¤µà¤² à¤¹à¥‹à¤® à¤µà¤¿à¤œà¤¿à¤Ÿ à¤¸à¥‡à¤µà¤¾ à¤¹à¥ˆà¥¤ à¤¹à¤®à¤¾à¤°à¤¾ à¤•à¥‹à¤ˆ à¤¸à¤¾à¤°à¥à¤µà¤œà¤¨à¤¿à¤• à¤•à¥à¤²à¤¿à¤¨à¤¿à¤• à¤¯à¤¾ à¤µà¥‰à¤•-à¤‡à¤¨ à¤•à¥‡à¤‚à¤¦à¥à¤° à¤¨à¤¹à¥€à¤‚ à¤¹à¥ˆà¥¤'
+                    ? 'यह एक केवल होम विजिट सेवा है। हमारा कोई सार्वजनिक क्लिनिक या वॉक-इन केंद्र नहीं है।'
                     : 'This is a HOME VISIT ONLY service. We do not have a public clinic or walk-in center.')}
                 </p>
               </div>
               <div className="bg-teal-50 rounded-xl p-4">
                 <div className="flex items-center gap-2 text-[#159A8C] font-bold text-sm mb-2">
-                  ðŸ“… {t.common.appointmentBased}
+                  {t.common.appointmentBased}
                 </div>
                 <p className="text-[#3D5A73] text-xs leading-relaxed">
                   {lang === 'hi'
-                    ? 'à¤¸à¤­à¥€ à¤¸à¤¤à¥à¤° à¤ªà¥‚à¤°à¥à¤µ à¤…à¤ªà¥‰à¤‡à¤‚à¤Ÿà¤®à¥‡à¤‚à¤Ÿ à¤•à¥‡ à¤†à¤§à¤¾à¤° à¤ªà¤° à¤†à¤¯à¥‹à¤œà¤¿à¤¤ à¤•à¤¿à¤ à¤œà¤¾à¤¤à¥‡ à¤¹à¥ˆà¤‚à¥¤'
+                    ? 'सभी सत्र पूर्व अपॉइंटमेंट के आधार पर आयोजित किए जाते हैं।'
                     : 'All sessions are conducted by prior appointment only. No walk-ins accepted.'}
                 </p>
               </div>
-              {/* Social links */}
               {(settings.facebook_url || settings.youtube_url || settings.instagram_url) && (
                 <div className="mt-4">
                   <p className="text-[#7A9BB5] text-xs font-semibold uppercase tracking-widest mb-2">{t.footer.followUs}</p>
@@ -184,10 +179,9 @@ export default function ContactPage() {
             </div>
           </div>
 
-          {/* Book appointment CTA */}
           <div className="mt-8 bg-gradient-to-br from-[#063B63] to-[#0877B8] rounded-2xl p-8 text-white text-center">
-            <h3 className="text-xl font-bold mb-2">{lang === 'hi' ? 'à¤…à¤ªà¥‰à¤‡à¤‚à¤Ÿà¤®à¥‡à¤‚à¤Ÿ à¤¬à¥à¤• à¤•à¤°à¥‡à¤‚' : 'Book Your Appointment'}</h3>
-            <p className="text-blue-100 text-sm mb-5">{lang === 'hi' ? 'à¤¹à¤®à¤¾à¤°à¥‡ à¤‘à¤¨à¤²à¤¾à¤‡à¤¨ à¤«à¥‰à¤°à¥à¤® à¤•à¥‡ à¤®à¤¾à¤§à¥à¤¯à¤® à¤¸à¥‡ à¤ªà¥‚à¤›à¤¤à¤¾à¤› à¤¸à¤¬à¤®à¤¿à¤Ÿ à¤•à¤°à¥‡à¤‚à¥¤' : 'Submit an enquiry through our online form and we will be in touch.'}</p>
+            <h3 className="text-xl font-bold mb-2">{lang === 'hi' ? 'अपॉइंटमेंट बुक करें' : 'Book Your Appointment'}</h3>
+            <p className="text-blue-100 text-sm mb-5">{lang === 'hi' ? 'हमारे ऑनलाइन फॉर्म के माध्यम से पूछताछ सबमिट करें।' : 'Submit an enquiry through our online form and we will be in touch.'}</p>
             <Link to="/appointment" className="inline-flex items-center gap-2 bg-white text-[#063B63] font-bold px-7 py-3 rounded-full hover:shadow-lg transition-all">
               <Calendar size={17} /> {t.nav.bookAppointment}
             </Link>
@@ -197,5 +191,3 @@ export default function ContactPage() {
     </>
   )
 }
-
-
