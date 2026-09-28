@@ -6,7 +6,7 @@ import { getSetting } from "../services/settingsService"
 
 const DEFAULT_BANNERS = [
   { id: 1, badge: "LIMITED TIME", title: "Bridal Collection", subtitle: "Up to 30% Off", desc: "Handcrafted gold & kundan sets", price: "2499", originalPrice: "3999", cta: "Shop Now", link: "/products?tags=bridal", bg: "from-[#1a0a00] to-[#3d1f00]", accent: "#D4AF37", image: "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=300&q=80" },
-  { id: 2, badge: "NEW ARRIVALS", title: "Premium Earrings", subtitle: "Starting ₹599", desc: "Traditional & modern styles", price: "599", originalPrice: "", cta: "Explore", link: "/products?category=Earrings", bg: "from-[#0a001a] to-[#1f003d]", accent: "#C084FC", image: "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=300&q=80" },
+  { id: 2, badge: "NEW ARRIVALS", title: "Premium Earrings", subtitle: "Starting ?599", desc: "Traditional & modern styles", price: "599", originalPrice: "", cta: "Explore", link: "/products?category=Earrings", bg: "from-[#0a001a] to-[#1f003d]", accent: "#C084FC", image: "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=300&q=80" },
   { id: 3, badge: "BESTSELLER", title: "Gold Bangles", subtitle: "BIS Hallmarked", desc: "Certified 22K gold jewelry", price: "7500", originalPrice: "", cta: "View Collection", link: "/products?category=Bangles", bg: "from-[#001a0a] to-[#003d1f]", accent: "#4ADE80", image: "https://images.unsplash.com/photo-1602173574767-37ac01994b2a?w=300&q=80" },
   { id: 4, badge: "FREE SHIPPING", title: "Free Shipping", subtitle: "On All Orders", desc: "No minimum order value", price: "", originalPrice: "", cta: "Shop All", link: "/products", bg: "from-[#1a0a0a] to-[#3d0000]", accent: "#F87171", image: "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=300&q=80" },
 ]
@@ -64,9 +64,9 @@ export default function PromoBanners() {
               {/* Price display */}
               {banner.price && (
                 <div className="flex items-center gap-2 mt-1.5">
-                  <span className="text-white font-bold text-lg">₹{Number(banner.price).toLocaleString("en-IN")}</span>
+                  <span className="text-white font-bold text-lg">?{Number(banner.price).toLocaleString("en-IN")}</span>
                   {banner.originalPrice && (
-                    <span className="text-gray-400 text-sm line-through">₹{Number(banner.originalPrice).toLocaleString("en-IN")}</span>
+                    <span className="text-gray-400 text-sm line-through">?{Number(banner.originalPrice).toLocaleString("en-IN")}</span>
                   )}
                   {banner.price && banner.originalPrice && (
                     <span className="text-xs px-1.5 py-0.5 rounded font-bold"
@@ -83,7 +83,7 @@ export default function PromoBanners() {
                 className="inline-flex items-center gap-1.5 mt-3 px-5 py-2 rounded-lg text-sm font-semibold transition-all hover:opacity-90 active:scale-95"
                 style={{ background: banner.accent, color: "#000" }}
               >
-                {banner.cta || "Shop Now"} →
+                {banner.cta || "Shop Now"} ?
               </Link>
             </div>
 
@@ -121,3 +121,5 @@ export default function PromoBanners() {
     </section>
   )
 }
+
+

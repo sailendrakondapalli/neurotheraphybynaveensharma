@@ -177,7 +177,7 @@ export default function OrdersPage() {
           className="w-full bg-white border border-[#E8E0D5] rounded-lg pl-9 pr-4 py-2.5 text-sm text-[#1A1A2E] placeholder-[#8A8AAA] focus:outline-none focus:border-[#1B2B5E]"
         />
         {search && (
-          <button onClick={() => setSearch("")} className="absolute right-3 top-1/2 -translate-y-1/2 text-[#8A8AAA] hover:text-[#1A1A2E] text-xs">✕</button>
+          <button onClick={() => setSearch("")} className="absolute right-3 top-1/2 -translate-y-1/2 text-[#8A8AAA] hover:text-[#1A1A2E] text-xs">?</button>
         )}
       </div>
 
@@ -248,7 +248,7 @@ export default function OrdersPage() {
                           </p>
                           <p className="text-gray-400 text-xs mt-1">
                             {order.refund_status === "refunded"
-                              ? "✓ Refund processed. Amount will reflect in 5-7 business days."
+                              ? "? Refund processed. Amount will reflect in 5-7 business days."
                               : "Refund is being processed. You will receive it within 5-7 business days."}
                           </p>
                         </div>
@@ -349,3 +349,5 @@ export default function OrdersPage() {
     </div>
   )
 }
+
+

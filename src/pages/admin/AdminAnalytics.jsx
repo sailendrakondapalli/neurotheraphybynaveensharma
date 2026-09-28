@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+﻿import { useEffect } from 'react'
 import {
   LineChart, Line, BarChart, Bar, PieChart, Pie, Cell,
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip,
@@ -86,7 +86,7 @@ export default function AdminAnalytics() {
             </defs>
             <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
             <XAxis dataKey="date" tick={{ fill: '#666', fontSize: 10 }} />
-            <YAxis tick={{ fill: '#666', fontSize: 10 }} tickFormatter={v => `₹${(v / 1000).toFixed(0)}k`} />
+            <YAxis tick={{ fill: '#666', fontSize: 10 }} tickFormatter={v => `â‚¹${(v / 1000).toFixed(0)}k`} />
             <Tooltip {...TooltipStyle} formatter={(v, n) => [n === 'revenue' ? formatINR(v) : v, n]} />
             <Area type="monotone" dataKey="revenue" stroke="#1B2B5E" fill="url(#navyGrad)" strokeWidth={2} name="Revenue" />
           </AreaChart>
@@ -126,7 +126,7 @@ export default function AdminAnalytics() {
       {/* Location Analytics */}
       <div className="bg-white border border-gray-200 rounded-xl p-5">
         <h3 className="text-[#1B2B5E] font-medium mb-4 flex items-center gap-2">
-          <MapPin size={16} className="text-[#1B2B5E]" /> Location Analytics — Top Cities
+          <MapPin size={16} className="text-[#1B2B5E]" /> Location Analytics â€” Top Cities
         </h3>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <ResponsiveContainer width="100%" height={240}>
@@ -182,3 +182,5 @@ export default function AdminAnalytics() {
     </div>
   )
 }
+
+

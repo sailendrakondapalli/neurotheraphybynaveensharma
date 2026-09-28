@@ -1,4 +1,4 @@
-import { Helmet } from 'react-helmet-async'
+﻿import { Helmet } from 'react-helmet-async'
 import { Briefcase, Users, Trophy, Heart } from 'lucide-react'
 import BreakingNewsTicker from '../components/BreakingNewsTicker'
 
@@ -152,3 +152,5 @@ export default function CareersPage() {
     </>
   )
 }
+
+

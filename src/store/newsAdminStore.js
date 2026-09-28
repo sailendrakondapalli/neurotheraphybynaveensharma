@@ -1,4 +1,4 @@
-import { create } from "zustand"
+﻿import { create } from "zustand"
 import { supabase } from "../lib/supabase"
 
 export const useNewsAdminStore = create((set, get) => ({
@@ -320,3 +320,5 @@ export const useNewsAdminStore = create((set, get) => ({
     set(s => ({ notifications: s.notifications.filter(n => n.id !== id) }))
   },
 }))
+
+

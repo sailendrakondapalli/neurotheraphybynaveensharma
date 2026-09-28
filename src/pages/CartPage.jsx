@@ -52,11 +52,11 @@ export default function CartPage() {
     if (items.length === 0) return
     const timer = setTimeout(() => {
       const phone = "918639006849"
-      const msg = encodeURIComponent("Hi! You have items waiting in your cart at NaShe Jewels 💍 Complete your order before they sell out!")
+      const msg = encodeURIComponent("Hi! You have items waiting in your cart at NaShe Jewels ?? Complete your order before they sell out!")
       toast(
         (t) => (
           <div className="flex flex-col gap-2">
-            <p className="text-sm font-medium">Still thinking? 💍</p>
+            <p className="text-sm font-medium">Still thinking? ??</p>
             <p className="text-xs text-gray-400">Your cart items might sell out soon!</p>
             <div className="flex gap-2 mt-1">
               <a href={`https://wa.me/${phone}?text=${msg}`} target="_blank" rel="noopener noreferrer"
@@ -188,7 +188,7 @@ export default function CartPage() {
                       <h3 className="text-[#1A1A2E] text-sm font-semibold hover:text-[#1B2B5E] transition-colors line-clamp-2">{product.name}</h3>
                     </Link>
                     <p className="text-[#C9956C] text-xs mt-1 font-medium">{product.category}</p>
-                    {product.stock === 0 && <p className="text-red-500 text-xs mt-1">⚠ Out of stock</p>}
+                    {product.stock === 0 && <p className="text-red-500 text-xs mt-1">? Out of stock</p>}
                     <div className="flex items-center justify-between mt-3">
                       <div className="flex items-center gap-2">
                         <button onClick={() => handleQty(item, -1)} className="w-7 h-7 flex items-center justify-center bg-[#F2EDE6] hover:bg-[#E8E0D5] text-[#4A4A6A] rounded-lg transition-all">
@@ -258,3 +258,5 @@ export default function CartPage() {
     </div>
   )
 }
+
+

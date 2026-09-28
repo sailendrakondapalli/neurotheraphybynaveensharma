@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+﻿import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { AlertCircle } from 'lucide-react'
 import { fetchBreakingNews } from '../services/newsService'
@@ -34,7 +34,7 @@ export default function BreakingNewsTicker() {
               <span key={item.id} className="text-sm font-medium">
                 {item.text}
                 {index < breakingNews.length - 1 && (
-                  <span className="mx-4 text-red-300">•</span>
+                  <span className="mx-4 text-red-300">â€¢</span>
                 )}
               </span>
             ))}
@@ -43,7 +43,7 @@ export default function BreakingNewsTicker() {
               <span key={`dup-${item.id}`} className="text-sm font-medium">
                 {item.text}
                 {index < breakingNews.length - 1 && (
-                  <span className="mx-4 text-red-300">•</span>
+                  <span className="mx-4 text-red-300">â€¢</span>
                 )}
               </span>
             ))}
@@ -53,3 +53,5 @@ export default function BreakingNewsTicker() {
     </div>
   )
 }
+
+

@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react"
+﻿import { useState, useEffect, useRef } from "react"
 import { useAdminStore } from "../../store/adminStore"
 import { motion, AnimatePresence } from "framer-motion"
 import { Plus, Trash2, Edit2, Save, ChevronUp, ChevronDown, Loader2, ImagePlus } from "lucide-react"
@@ -52,8 +52,8 @@ function BannerPreview({ banner }) {
         <p className="text-xs font-semibold" style={{ color: banner.accent }}>{banner.subtitle || "Subtitle"}</p>
         {(banner.price || banner.originalPrice) && (
           <div className="flex items-center gap-2 mt-0.5">
-            {banner.price && <span className="text-[#1A1A2E] text-sm font-bold">₹{banner.price}</span>}
-            {banner.originalPrice && <span className="text-gray-400 text-xs line-through">₹{banner.originalPrice}</span>}
+            {banner.price && <span className="text-[#1A1A2E] text-sm font-bold">â‚¹{banner.price}</span>}
+            {banner.originalPrice && <span className="text-gray-400 text-xs line-through">â‚¹{banner.originalPrice}</span>}
           </div>
         )}
         <span className="inline-block mt-1.5 px-3 py-1 rounded text-xs font-semibold"
@@ -148,11 +148,11 @@ function BannerForm({ initial, onSave, onCancel }) {
 
         {/* Price fields */}
         <div>
-          <label className={lbl}>Sale Price (₹)</label>
+          <label className={lbl}>Sale Price (â‚¹)</label>
           <input type="number" value={form.price||""} onChange={e=>setForm(f=>({...f,price:e.target.value}))} placeholder="e.g. 2499" className={inp} />
         </div>
         <div>
-          <label className={lbl}>Original Price (₹) <span className="text-gray-600">optional</span></label>
+          <label className={lbl}>Original Price (â‚¹) <span className="text-gray-600">optional</span></label>
           <input type="number" value={form.originalPrice||""} onChange={e=>setForm(f=>({...f,originalPrice:e.target.value}))} placeholder="e.g. 3999" className={inp} />
         </div>
 
@@ -283,7 +283,7 @@ export default function AdminBanners() {
         </div>
       ) : banners.length === 0 && !showForm ? (
         <div className="text-center py-16 bg-white rounded-xl border border-[#E8E0D5]">
-          <p className="text-4xl mb-3">🎨</p>
+          <p className="text-4xl mb-3">ðŸŽ¨</p>
           <p className="text-[#4A4A6A]">No banners yet.</p>
           <button onClick={() => setShowForm(true)} className="mt-4 px-6 py-2 bg-[#1B2B5E] text-white rounded-lg text-sm font-medium hover:bg-[#2A3F7E] transition-all">+ Add Banner</button>
         </div>
@@ -325,3 +325,5 @@ export default function AdminBanners() {
     </div>
   )
 }
+
+

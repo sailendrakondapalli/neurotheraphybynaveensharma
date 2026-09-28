@@ -1,5 +1,4 @@
-﻿// AdminRoute - No authentication required
+﻿// Admin panel is open - no authentication required
 export default function AdminRoute({ children }) {
-  // Direct access to admin panel without authentication
   return children
 }

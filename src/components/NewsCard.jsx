@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+﻿import { Link } from 'react-router-dom'
 import { Clock, Eye, User } from 'lucide-react'
 import { motion } from 'framer-motion'
 
@@ -134,3 +134,5 @@ export default function NewsCard({ news, size = 'medium' }) {
     </Link>
   )
 }
+
+

@@ -1,4 +1,4 @@
-import { useLocation } from 'react-router-dom'
+﻿import { useLocation } from 'react-router-dom'
 
 const policies = {
   'shipping-policy': {
@@ -6,11 +6,11 @@ const policies = {
     content: [
       {
         heading: 'Processing Time',
-        text: 'All confirmed orders are processed and dispatched within 24–48 hours (excluding Sundays and public holidays).\n\nIn case of delays due to stock availability or unforeseen reasons, customers will be informed promptly.'
+        text: 'All confirmed orders are processed and dispatched within 24â€“48 hours (excluding Sundays and public holidays).\n\nIn case of delays due to stock availability or unforeseen reasons, customers will be informed promptly.'
       },
       {
         heading: 'Shipping Options & Charges',
-        text: 'Standard Shipping:\n• ₹80 per order within Andhra Pradesh and Telangana\n• ₹100 for all other states\n\nDelivery timeline: 5–7 business days (after dispatch)\n\nNOTE: Currently, we do not offer free shipping on any orders.'
+        text: 'Standard Shipping:\nâ€¢ â‚¹80 per order within Andhra Pradesh and Telangana\nâ€¢ â‚¹100 for all other states\n\nDelivery timeline: 5â€“7 business days (after dispatch)\n\nNOTE: Currently, we do not offer free shipping on any orders.'
       },
       {
         heading: 'Delivery Information',
@@ -26,7 +26,7 @@ const policies = {
       },
       {
         heading: 'Contact Us',
-        text: 'For shipping-related queries, please contact:\n📞 Phone / WhatsApp: +91 8639006849\n📧 Email: nashejewels@gmail.com'
+        text: 'For shipping-related queries, please contact:\nðŸ“ž Phone / WhatsApp: +91 8639006849\nðŸ“§ Email: nashejewels@gmail.com'
       },
     ]
   },
@@ -34,7 +34,7 @@ const policies = {
     title: 'Refund & Return Policy',
     content: [
       {
-        heading: '😊 NaShe Jewels — Customer First',
+        heading: 'ðŸ˜Š NaShe Jewels â€” Customer First',
         text: 'Customer satisfaction is very important to us. Every product is carefully checked and packed before dispatch to ensure it reaches you in the best condition.\n\nPlease go through our policy to understand how we handle returns, replacements, and refunds.'
       },
       {
@@ -43,19 +43,19 @@ const policies = {
       },
       {
         heading: 'Damaged or Defective Products',
-        text: 'If you receive a damaged or defective product, we are committed to resolving it quickly.\n\n• Inform us within 24 hours of receiving the order.\n• OPENING VIDEO IS MANDATORY. Share a clear unboxing video of the damaged product.\n• Before opening the package, the package should be focused at the tearing side properly.\n• ❌ NO ZOOM  ❌ NO EDITING\n• NOTE: 360° view of the package must be recorded before tearing it open.'
+        text: 'If you receive a damaged or defective product, we are committed to resolving it quickly.\n\nâ€¢ Inform us within 24 hours of receiving the order.\nâ€¢ OPENING VIDEO IS MANDATORY. Share a clear unboxing video of the damaged product.\nâ€¢ Before opening the package, the package should be focused at the tearing side properly.\nâ€¢ âŒ NO ZOOM  âŒ NO EDITING\nâ€¢ NOTE: 360Â° view of the package must be recorded before tearing it open.'
       },
       {
         heading: 'How to Report',
-        text: 'Send the proof via:\n📱 WhatsApp: +91 8639006849\n📧 Email: nashejewels@gmail.com\n\nOnce verified by our team, we will:\n• Offer a replacement of the same product, or\n• Provide a refund if replacement is not possible.'
+        text: 'Send the proof via:\nðŸ“± WhatsApp: +91 8639006849\nðŸ“§ Email: nashejewels@gmail.com\n\nOnce verified by our team, we will:\nâ€¢ Offer a replacement of the same product, or\nâ€¢ Provide a refund if replacement is not possible.'
       },
       {
         heading: 'Refunds',
-        text: 'Refunds will be processed to the original payment method within 5–7 working days after approval.\n\nShipping charges are non-refundable.'
+        text: 'Refunds will be processed to the original payment method within 5â€“7 working days after approval.\n\nShipping charges are non-refundable.'
       },
       {
         heading: 'Contact Us',
-        text: 'For all return or refund related queries, please contact us:\n📞 Phone / WhatsApp: +91 8639006849\n📧 Email: nashejewels@gmail.com'
+        text: 'For all return or refund related queries, please contact us:\nðŸ“ž Phone / WhatsApp: +91 8639006849\nðŸ“§ Email: nashejewels@gmail.com'
       },
     ]
   },
@@ -95,7 +95,9 @@ export default function PolicyPage() {
           </div>
         ))}
       </div>
-      <p className="text-[#8A8AAA] text-xs mt-8 text-center">Last updated: May 2026 · NaShe Jewels</p>
+      <p className="text-[#8A8AAA] text-xs mt-8 text-center">Last updated: May 2026 Â· NaShe Jewels</p>
     </div>
   )
 }
+
+

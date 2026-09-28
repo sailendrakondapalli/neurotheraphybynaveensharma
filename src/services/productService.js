@@ -1,6 +1,6 @@
-import { supabase } from '../lib/supabase'
+﻿import { supabase } from '../lib/supabase'
 
-// Try Supabase first, NO mock fallback — return empty array if DB fails
+// Try Supabase first, NO mock fallback â€” return empty array if DB fails
 export async function fetchProducts(filters = {}) {
   try {
     let query = supabase.from('products').select('*')
@@ -34,4 +34,6 @@ export async function fetchProductById(id) {
     return null
   }
 }
+
+
 

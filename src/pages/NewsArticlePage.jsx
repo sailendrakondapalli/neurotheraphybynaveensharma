@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+﻿import { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import { Clock, Eye, User, Share2, Link as LinkIcon } from 'lucide-react'
@@ -293,3 +293,5 @@ export default function NewsArticlePage() {
     </>
   )
 }
+
+

@@ -1,0 +1,167 @@
+﻿import { useEffect, useState } from 'react'
+import { useParams, Link, useNavigate } from 'react-router-dom'
+import { Helmet } from 'react-helmet-async'
+import { motion } from 'framer-motion'
+import { Calendar, ChevronRight, MessageCircle, Phone, CheckCircle, ArrowLeft } from 'lucide-react'
+import { getServiceBySlug, getPublishedServices, getWebsiteSettings } from '../services/neurotherapyService'
+import { useLanguage } from '../lib/LanguageContext'
+
+export default function ServiceDetailPage() {
+  const { slug } = useParams()
+  const navigate = useNavigate()
+  const [service, setService] = useState(null)
+  const [related, setRelated] = useState([])
+  const [settings, setSettings] = useState({})
+  const [loading, setLoading] = useState(true)
+  const { lang, t } = useLanguage()
+
+  useEffect(() => {
+    setLoading(true)
+    Promise.all([getServiceBySlug(slug), getPublishedServices(), getWebsiteSettings()])
+      .then(([svc, all, w]) => {
+        if (!svc) { navigate('/services', { replace: true }); return }
+        setService(svc)
+        setSettings(w)
+        setRelated(all.filter(s => s.id !== svc.id).slice(0, 4))
+      })
+      .catch(() => navigate('/services', { replace: true }))
+      .finally(() => setLoading(false))
+  }, [slug])
+
+  if (loading) return (
+    <div className="min-h-[60vh] flex items-center justify-center">
+      <div className="w-10 h-10 border-3 border-[#0877B8] border-t-transparent rounded-full animate-spin" />
+    </div>
+  )
+
+  if (!service) return null
+
+  const phone = settings.phone || '+91 88711 93506'
+  const whatsapp = settings.whatsapp || '+91 88711 93506'
+  const whatsappLink = `https://wa.me/${whatsapp.replace(/[^0-9]/g, '')}`
+  const benefits = service.benefits ? (typeof service.benefits === 'string' ? JSON.parse(service.benefits) : service.benefits) : []
+
+  const title = lang === 'hi' && service.title_hi ? service.title_hi : service.title
+  const shortDesc = lang === 'hi' && service.short_description_hi ? service.short_description_hi : service.short_description
+  const desc = lang === 'hi' && service.description_hi ? service.description_hi : service.description
+
+  return (
+    <>
+      <Helmet>
+        <title>{title} â€“ Neurotherapist Naveen Sharma</title>
+        <meta name="description" content={shortDesc} />
+      </Helmet>
+
+      {/* Hero */}
+      <div className="bg-gradient-to-br from-[#063B63] to-[#0877B8] text-white py-10 md:py-14 px-4">
+        <div className="max-w-4xl mx-auto">
+          <Link to="/services" className="inline-flex items-center gap-2 text-blue-200 hover:text-white text-sm mb-5 transition-colors">
+            <ArrowLeft size={16} /> {lang === 'hi' ? 'à¤¸à¤­à¥€ à¤¸à¥‡à¤µà¤¾à¤à¤‚' : 'All Services'}
+          </Link>
+          <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold mb-4">{title}</h1>
+          {shortDesc && <p className="text-blue-100 text-lg max-w-2xl">{shortDesc}</p>}
+          <div className="flex items-center gap-3 mt-4 flex-wrap">
+            <span className="bg-white/10 border border-white/20 rounded-full px-4 py-2 text-sm font-semibold">ðŸ  {t.common.homeVisitOnly}</span>
+            <span className="bg-white/10 border border-white/20 rounded-full px-4 py-2 text-sm font-semibold">ðŸ“… {t.common.appointmentBased}</span>
+          </div>
+        </div>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 py-10 md:py-16">
+        <div className="grid lg:grid-cols-3 gap-10">
+          {/* Main content */}
+          <div className="lg:col-span-2 order-2 lg:order-1">
+            {service.image && (
+              <img src={service.image} alt={title} className="w-full rounded-2xl shadow-lg object-cover mb-8 max-h-80" />
+            )}
+
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+              {desc && (
+                <div className="prose prose-blue max-w-none mb-8">
+                  <p className="text-[#3D5A73] leading-relaxed text-base">{desc}</p>
+                </div>
+              )}
+
+              {/* Benefits */}
+              {benefits.length > 0 && (
+                <div className="mb-8">
+                  <h2 className="text-xl font-bold text-[#063B63] mb-4">
+                    {lang === 'hi' ? 'à¤¸à¤¹à¤¾à¤¯à¤¤à¤¾ à¤•à¥à¤·à¥‡à¤¤à¥à¤°' : 'Support Areas'}
+                  </h2>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    {benefits.map((benefit, i) => (
+                      <div key={i} className="flex items-center gap-3 bg-[#F5FAFC] rounded-xl p-3 border border-blue-50">
+                        <CheckCircle size={16} className="text-[#159447] flex-shrink-0" />
+                        <span className="text-[#3D5A73] text-sm">{benefit}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+            </motion.div>
+          </div>
+
+          {/* Sidebar */}
+          <div className="space-y-5 order-1 lg:order-2">
+            {/* Book CTA */}
+            <div className="bg-gradient-to-br from-[#063B63] to-[#0877B8] rounded-2xl p-6 text-white">
+              <h3 className="font-bold text-lg mb-2">{lang === 'hi' ? 'à¤…à¤ªà¥‰à¤‡à¤‚à¤Ÿà¤®à¥‡à¤‚à¤Ÿ à¤¬à¥à¤• à¤•à¤°à¥‡à¤‚' : 'Book Appointment'}</h3>
+              <p className="text-blue-100 text-sm mb-4">{lang === 'hi' ? 'à¤¹à¤® à¤†à¤ªà¤•à¥‡ à¤˜à¤° à¤†à¤à¤‚à¤—à¥‡à¥¤' : 'We come to your home.'}</p>
+              <Link to={`/appointment?service=${encodeURIComponent(service.title)}`}
+                className="w-full flex items-center justify-center gap-2 bg-white text-[#063B63] font-bold py-3 rounded-xl hover:shadow-lg transition-all">
+                <Calendar size={17} /> {t.nav.bookAppointment}
+              </Link>
+              <a href={`tel:${phone}`} className="w-full mt-3 flex items-center justify-center gap-2 bg-white/10 border border-white/30 text-white font-semibold py-2.5 rounded-xl hover:bg-white/20 transition-all text-sm">
+                <Phone size={15} /> {t.common.callNow}
+              </a>
+              <a href={whatsappLink} target="_blank" rel="noopener noreferrer"
+                className="w-full mt-2 flex items-center justify-center gap-2 bg-[#25D366] text-white font-semibold py-2.5 rounded-xl hover:bg-[#1ebc5a] transition-all text-sm">
+                <MessageCircle size={15} /> WhatsApp
+              </a>
+            </div>
+
+            {/* Important note */}
+            <div className="bg-[#F5FAFC] rounded-2xl p-5 border border-blue-100">
+              <h4 className="font-bold text-[#063B63] mb-3 text-sm">{lang === 'hi' ? 'à¤®à¤¹à¤¤à¥à¤µà¤ªà¥‚à¤°à¥à¤£' : 'Important'}</h4>
+              <div className="space-y-2">
+                {[
+                  { icon: 'ðŸ ', text: lang === 'hi' ? 'à¤•à¥‡à¤µà¤² à¤¹à¥‹à¤® à¤µà¤¿à¤œà¤¿à¤Ÿ' : 'Home Visit Only' },
+                  { icon: 'ðŸ“…', text: lang === 'hi' ? 'à¤ªà¥‚à¤°à¥à¤µ à¤…à¤ªà¥‰à¤‡à¤‚à¤Ÿà¤®à¥‡à¤‚à¤Ÿ à¤†à¤µà¤¶à¥à¤¯à¤•' : 'Prior appointment required' },
+                  { icon: 'ðŸš«', text: lang === 'hi' ? 'à¤•à¥‹à¤ˆ à¤µà¥‰à¤•-à¤‡à¤¨ à¤¨à¤¹à¥€à¤‚' : 'No walk-ins accepted' },
+                ].map((item, i) => (
+                  <div key={i} className="flex items-center gap-2 text-[#3D5A73] text-sm">
+                    <span>{item.icon}</span><span>{item.text}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Related services */}
+            {related.length > 0 && (
+              <div>
+                <h4 className="font-bold text-[#063B63] mb-3 text-sm">{lang === 'hi' ? 'à¤…à¤¨à¥à¤¯ à¤¸à¥‡à¤µà¤¾à¤à¤‚' : 'Other Services'}</h4>
+                <div className="space-y-2">
+                  {related.map(svc => (
+                    <Link key={svc.id} to={`/services/${svc.slug}`}
+                      className="flex items-center gap-2 bg-white rounded-xl p-3 border border-blue-50 hover:border-blue-200 hover:shadow-sm transition-all group">
+                      <div className="w-10 h-10 rounded-lg bg-[#F5FAFC] overflow-hidden flex-shrink-0">
+                        {svc.image ? <img src={svc.image} alt={svc.title} className="w-full h-full object-cover" /> : <div className="w-full h-full flex items-center justify-center text-lg">ðŸ©º</div>}
+                      </div>
+                      <span className="text-[#3D5A73] text-xs font-medium group-hover:text-[#0877B8] transition-colors flex-1 line-clamp-2">
+                        {lang === 'hi' && svc.title_hi ? svc.title_hi : svc.title}
+                      </span>
+                      <ChevronRight size={14} className="text-gray-400 flex-shrink-0" />
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </>
+  )
+}
+
+

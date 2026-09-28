@@ -1,7 +1,7 @@
-import { motion, useInView } from 'framer-motion'
+﻿import { motion, useInView } from 'framer-motion'
 import { useRef } from 'react'
 
-// "snap into place" animation — items appear from slightly below and scale up
+// "snap into place" animation â€” items appear from slightly below and scale up
 export default function ScrollReveal({ children, delay = 0, className = '' }) {
   const ref = useRef(null)
   const inView = useInView(ref, { once: true, margin: '-50px' })
@@ -18,3 +18,5 @@ export default function ScrollReveal({ children, delay = 0, className = '' }) {
     </motion.div>
   )
 }
+
+

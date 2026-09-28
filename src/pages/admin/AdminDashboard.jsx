@@ -1,168 +1,157 @@
-import { useEffect } from "react"
-import { Link } from "react-router-dom"
-import { motion } from "framer-motion"
-import { FileText, TrendingUp, Eye, Users, Video, AlertCircle, ArrowRight, Clock } from "lucide-react"
-import { useNewsAdminStore } from "../../store/newsAdminStore"
-import { AreaChart, Area, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts"
+﻿import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
+import { motion } from 'framer-motion'
+import { Stethoscope, Star, Image, Video, HelpCircle, Calendar, CheckCircle, Clock, Users, TrendingUp } from 'lucide-react'
+import { getDashboardStats, getRecentAppointments, getRecentTestimonials } from '../../services/neurotherapyService'
 
-const COLORS = ["#1B2B5E", "#DC2626", "#3B82F6", "#10B981", "#F59E0B", "#8B5CF6", "#EC4899", "#6366F1"]
-
-function StatCard({ icon: Icon, label, value, subtext, link, trend, color = "blue" }) {
-  const bgColors = {
-    blue: "bg-blue-50",
-    red: "bg-red-50",
-    green: "bg-green-50",
-    purple: "bg-purple-50",
-    orange: "bg-orange-50"
-  }
-  const textColors = {
-    blue: "text-[#1B2B5E]",
-    red: "text-red-600",
-    green: "text-green-600",
-    purple: "text-purple-600",
-    orange: "text-orange-600"
-  }
-  
-  return (
-    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} whileHover={{ scale: 1.02 }} transition={{ duration: 0.2 }}
-      className="bg-white rounded-xl shadow-sm p-5 border border-gray-100 hover:shadow-md transition-all">
-      <div className="flex items-start justify-between mb-3">
-        <div className={`w-11 h-11 rounded-lg flex items-center justify-center ${bgColors[color]}`}>
-          <Icon size={20} className={textColors[color]} />
+function StatCard({ icon: Icon, label, value, color, to }) {
+  const card = (
+    <motion.div whileHover={{ scale: 1.02 }} className={`bg-white rounded-2xl p-5 shadow-sm border border-gray-100 cursor-pointer hover:shadow-md transition-all`}>
+      <div className="flex items-center justify-between mb-3">
+        <div className={`w-11 h-11 rounded-xl flex items-center justify-center ${color}`}>
+          <Icon size={20} className="text-white" />
         </div>
-        {trend && (
-          <div className={"flex items-center gap-1 text-xs font-medium px-2 py-1 rounded-full " + (trend > 0 ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700")}>
-            <TrendingUp size={12} className={trend < 0 ? "rotate-180" : ""} />
-            {Math.abs(trend)}%
-          </div>
-        )}
+        <span className={`text-2xl font-bold text-[#063B63]`}>{value ?? 'â€“'}</span>
       </div>
-      <div className="space-y-1">
-        <h3 className="text-2xl font-bold text-gray-900">{value}</h3>
-        <p className="text-sm text-gray-500">{label}</p>
-        {subtext && <p className="text-xs text-gray-400">{subtext}</p>}
-      </div>
-      {link && (
-        <Link to={link} className="mt-3 flex items-center text-xs text-[#1B2B5E] hover:underline font-medium">
-          View details <ArrowRight size={12} className="ml-1" />
-        </Link>
-      )}
+      <p className="text-[#3D5A73] text-sm font-medium">{label}</p>
     </motion.div>
   )
+  return to ? <Link to={to}>{card}</Link> : card
+}
+
+const STATUS_COLORS = {
+  new: 'bg-blue-100 text-blue-700',
+  contacted: 'bg-yellow-100 text-yellow-700',
+  scheduled: 'bg-purple-100 text-purple-700',
+  completed: 'bg-green-100 text-green-700',
+  cancelled: 'bg-red-100 text-red-700',
 }
 
 export default function AdminDashboard() {
-  const { stats, loadNews, loadReporters, loadCategories, loadVideos, computeStats, loading } = useNewsAdminStore()
+  const [stats, setStats] = useState({})
+  const [appointments, setAppointments] = useState([])
+  const [testimonials, setTestimonials] = useState([])
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    const load = async () => {
-      await Promise.all([loadNews(), loadReporters(), loadCategories(), loadVideos()])
-      await computeStats()
-    }
-    load()
+    Promise.all([getDashboardStats(), getRecentAppointments(5), getRecentTestimonials(5)])
+      .then(([s, a, t]) => { setStats(s); setAppointments(a); setTestimonials(t) })
+      .catch(console.error)
+      .finally(() => setLoading(false))
   }, [])
 
-  if (loading && !stats) return <div className="flex items-center justify-center py-20"><div className="w-8 h-8 border-2 border-[#1B2B5E] border-t-transparent rounded-full animate-spin" /></div>
+  const statCards = [
+    { icon: Stethoscope, label: 'Total Services', value: stats.totalServices, color: 'bg-gradient-to-br from-[#063B63] to-[#0877B8]', to: '/admin/services' },
+    { icon: CheckCircle, label: 'Published Services', value: stats.publishedServices, color: 'bg-gradient-to-br from-[#159447] to-[#159A8C]', to: '/admin/services' },
+    { icon: Star, label: 'Total Testimonials', value: stats.totalTestimonials, color: 'bg-gradient-to-br from-[#0877B8] to-[#159A8C]', to: '/admin/testimonials' },
+    { icon: Clock, label: 'Pending Testimonials', value: stats.pendingTestimonials, color: 'bg-gradient-to-br from-amber-500 to-orange-500', to: '/admin/testimonials' },
+    { icon: Image, label: 'Gallery Images', value: stats.galleryImages, color: 'bg-gradient-to-br from-[#159A8C] to-[#0877B8]', to: '/admin/gallery' },
+    { icon: Video, label: 'Videos', value: stats.totalVideos, color: 'bg-gradient-to-br from-red-500 to-red-600', to: '/admin/videos' },
+    { icon: HelpCircle, label: 'FAQs', value: stats.totalFaqs, color: 'bg-gradient-to-br from-purple-500 to-purple-600', to: '/admin/faqs' },
+    { icon: Calendar, label: 'New Enquiries', value: stats.newEnquiries, color: 'bg-gradient-to-br from-[#063B63] to-[#159A8C]', to: '/admin/appointments' },
+    { icon: TrendingUp, label: 'Scheduled', value: stats.scheduledAppointments, color: 'bg-gradient-to-br from-[#159447] to-[#0877B8]', to: '/admin/appointments' },
+  ]
+
+  if (loading) return (
+    <div className="flex items-center justify-center min-h-[60vh]">
+      <div className="w-10 h-10 border-3 border-[#0877B8] border-t-transparent rounded-full animate-spin" />
+    </div>
+  )
 
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-gray-900">SR TV NEWS Dashboard</h1>
-        <p className="text-gray-500 mt-1">Welcome back! Here's your news channel overview.</p>
+        <h1 className="text-2xl font-bold text-[#063B63]">Dashboard</h1>
+        <p className="text-[#3D5A73] text-sm mt-1">Neurotherapy CMS Overview</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatCard icon={FileText} label="Total News" value={stats?.totalNews || 0} subtext={`${stats?.publishedNews || 0} published`} link="/admin/news" color="blue" />
-        <StatCard icon={AlertCircle} label="Breaking News" value={stats?.breakingNews || 0} subtext="Active breaking stories" link="/admin/breaking-news" color="red" />
-        <StatCard icon={TrendingUp} label="Trending News" value={stats?.trendingNews || 0} subtext="Currently trending" link="/admin/trending-news" color="orange" />
-        <StatCard icon={Eye} label="Total Views" value={(stats?.total_views || 0).toLocaleString()} subtext="All-time views" color="green" />
+      {/* Stats grid */}
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+        {statCards.map((card, i) => (
+          <StatCard key={i} {...card} />
+        ))}
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatCard icon={Users} label="Reporters" value={stats?.totalReporters || 0} subtext="Active reporters" link="/admin/reporters" color="purple" />
-        <StatCard icon={Video} label="Videos" value={stats?.totalVideos || 0} subtext="Published videos" link="/admin/videos" color="blue" />
-        <StatCard icon={FileText} label="Categories" value={stats?.totalCategories || 0} link="/admin/categories" color="green" />
-        <StatCard icon={Clock} label="Draft News" value={stats?.draftNews || 0} subtext="Unpublished drafts" link="/admin/news" color="orange" />
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }}
-          className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-            <TrendingUp size={18} className="text-[#1B2B5E]" /> Publishing Activity (Last 14 Days)
-          </h3>
-          <ResponsiveContainer width="100%" height={250}>
-            <AreaChart data={stats?.last14Days || []}>
-              <defs>
-                <linearGradient id="colorPublished" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#1B2B5E" stopOpacity={0.3} />
-                  <stop offset="95%" stopColor="#1B2B5E" stopOpacity={0} />
-                </linearGradient>
-              </defs>
-              <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-              <XAxis dataKey="date" tick={{ fontSize: 11, fill: "#888" }} />
-              <YAxis tick={{ fontSize: 11, fill: "#888" }} />
-              <Tooltip contentStyle={{ fontSize: 12, borderRadius: 8, border: "1px solid #e5e7eb" }} />
-              <Area type="monotone" dataKey="published" stroke="#1B2B5E" fillOpacity={1} fill="url(#colorPublished)" name="Published" />
-            </AreaChart>
-          </ResponsiveContainer>
-        </motion.div>
-
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }}
-          className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-            <FileText size={18} className="text-red-600" /> News by Category
-          </h3>
-          <ResponsiveContainer width="100%" height={250}>
-            <PieChart>
-              <Pie data={stats?.categoryDistribution || []} cx="50%" cy="50%" labelLine={false}
-                label={({ name, percent }) => percent > 0.05 ? `${name} (${(percent * 100).toFixed(0)}%)` : ""}
-                outerRadius={80} fill="#8884d8" dataKey="value">
-                {(stats?.categoryDistribution || []).map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                ))}
-              </Pie>
-              <Tooltip contentStyle={{ fontSize: 12, borderRadius: 8 }} />
-            </PieChart>
-          </ResponsiveContainer>
-        </motion.div>
-
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4 }}
-          className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Top Reporters</h3>
-          <div className="space-y-2">
-            {(stats?.topReporters || []).map((item, i) => (
-              <div key={i} className="flex items-center justify-between text-sm">
-                <span className="text-gray-700 truncate flex-1 mr-2">{item.name}</span>
-                <span className="text-gray-900 font-semibold">{item.count} articles</span>
+      <div className="grid lg:grid-cols-2 gap-6">
+        {/* Recent Appointments */}
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+          <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
+            <h2 className="font-bold text-[#063B63] text-base">Recent Enquiries</h2>
+            <Link to="/admin/appointments" className="text-[#0877B8] text-xs font-semibold hover:underline">View All</Link>
+          </div>
+          <div className="divide-y divide-gray-50">
+            {appointments.length === 0 ? (
+              <p className="text-[#7A9BB5] text-sm text-center py-8">No enquiries yet</p>
+            ) : appointments.map(a => (
+              <div key={a.id} className="flex items-start gap-3 px-5 py-3 hover:bg-gray-50 transition-colors">
+                <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[#063B63] to-[#0877B8] flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
+                  {a.name?.charAt(0)}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="font-semibold text-[#063B63] text-sm truncate">{a.name}</p>
+                  <p className="text-[#7A9BB5] text-xs">{a.phone} {a.service_name ? `â€¢ ${a.service_name}` : ''}</p>
+                </div>
+                <span className={`flex-shrink-0 text-xs px-2 py-1 rounded-full font-semibold capitalize ${STATUS_COLORS[a.status] || 'bg-gray-100 text-gray-600'}`}>
+                  {a.status}
+                </span>
               </div>
             ))}
-            {(!stats?.topReporters || stats.topReporters.length === 0) && (
-              <p className="text-gray-400 text-xs">No reporters yet</p>
-            )}
           </div>
-        </motion.div>
+        </div>
 
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}
-          className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Recent Published News</h3>
-          <div className="space-y-3">
-            {(stats?.recentNews || []).slice(0, 5).map((item, i) => (
-              <div key={i} className="text-sm border-b border-gray-100 pb-2 last:border-0">
-                <Link to={`/admin/news`} className="text-gray-900 font-medium hover:text-[#1B2B5E] line-clamp-1">
-                  {item.title}
-                </Link>
-                <p className="text-gray-400 text-xs mt-0.5">
-                  {new Date(item.published_at).toLocaleDateString()} • {item.category?.name || 'Uncategorized'}
-                </p>
+        {/* Recent Testimonials */}
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+          <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
+            <h2 className="font-bold text-[#063B63] text-base">Recent Testimonials</h2>
+            <Link to="/admin/testimonials" className="text-[#0877B8] text-xs font-semibold hover:underline">View All</Link>
+          </div>
+          <div className="divide-y divide-gray-50">
+            {testimonials.length === 0 ? (
+              <p className="text-[#7A9BB5] text-sm text-center py-8">No testimonials yet</p>
+            ) : testimonials.map(t => (
+              <div key={t.id} className="flex items-start gap-3 px-5 py-3 hover:bg-gray-50 transition-colors">
+                <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[#159A8C] to-[#0877B8] flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
+                  {t.patient_name?.charAt(0)}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="font-semibold text-[#063B63] text-sm truncate">{t.patient_name}</p>
+                  <p className="text-[#7A9BB5] text-xs line-clamp-1">"{t.testimonial}"</p>
+                </div>
+                <span className={`flex-shrink-0 text-xs px-2 py-1 rounded-full font-semibold capitalize ${
+                  t.status === 'published' ? 'bg-green-100 text-green-700' :
+                  t.status === 'pending' ? 'bg-yellow-100 text-yellow-700' :
+                  t.status === 'approved' ? 'bg-blue-100 text-blue-700' :
+                  'bg-red-100 text-red-700'
+                }`}>
+                  {t.status}
+                </span>
               </div>
             ))}
-            {(!stats?.recentNews || stats.recentNews.length === 0) && (
-              <p className="text-gray-400 text-xs">No published news yet</p>
-            )}
           </div>
-        </motion.div>
+        </div>
+      </div>
+
+      {/* Quick actions */}
+      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5">
+        <h2 className="font-bold text-[#063B63] text-base mb-4">Quick Actions</h2>
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+          {[
+            { to: '/admin/services/new', icon: 'âž•', label: 'Add Service' },
+            { to: '/admin/gallery/new', icon: 'ðŸ–¼ï¸', label: 'Upload Image' },
+            { to: '/admin/videos/new', icon: 'ðŸŽ¥', label: 'Add Video' },
+            { to: '/admin/faqs/new', icon: 'â“', label: 'Add FAQ' },
+            { to: '/admin/settings', icon: 'âš™ï¸', label: 'Settings' },
+          ].map(action => (
+            <Link key={action.to} to={action.to}
+              className="flex flex-col items-center gap-2 bg-[#F5FAFC] rounded-xl p-4 border border-blue-50 hover:border-blue-200 hover:shadow-sm transition-all text-center">
+              <span className="text-2xl">{action.icon}</span>
+              <span className="text-[#3D5A73] text-xs font-medium">{action.label}</span>
+            </Link>
+          ))}
+        </div>
       </div>
     </div>
   )
 }
+
+

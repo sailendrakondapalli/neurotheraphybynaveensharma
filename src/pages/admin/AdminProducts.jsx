@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react"
+﻿import { useEffect, useState, useRef } from "react"
 import { useSearchParams } from "react-router-dom"
 import { motion, AnimatePresence } from "framer-motion"
 import { Plus, Edit2, Trash2, Search, AlertTriangle, X, Upload, ImagePlus, Loader2 } from "lucide-react"
@@ -68,7 +68,7 @@ function ImageUploader({ images, onImagesChange, uploading, setUploading }) {
 
   return (
     <div className="col-span-2">
-      <label className="text-xs text-gray-400 mb-2 block">Product Images & Videos (max 4) — Videos max 30s, muted on display</label>
+      <label className="text-xs text-gray-400 mb-2 block">Product Images & Videos (max 4) â€” Videos max 30s, muted on display</label>
       {images.length < 4 && (
         <div
           onDrop={handleDrop}
@@ -93,7 +93,7 @@ function ImageUploader({ images, onImagesChange, uploading, setUploading }) {
             <>
               <ImagePlus size={28} className="text-[#1B2B5E]/50 mx-auto mb-2" />
               <p className="text-gray-400 text-sm">Drop images or videos here or click to browse</p>
-              <p className="text-gray-600 text-xs mt-1">Images: JPG, PNG, WEBP (max 5MB) · Videos: MP4, MOV, WEBM (max 30s, 50MB)</p>
+              <p className="text-gray-600 text-xs mt-1">Images: JPG, PNG, WEBP (max 5MB) Â· Videos: MP4, MOV, WEBM (max 30s, 50MB)</p>
             </>
           )}
         </div>
@@ -120,7 +120,7 @@ function ImageUploader({ images, onImagesChange, uploading, setUploading }) {
                 <X size={10} />
               </button>
               {i === 0 && <span className="absolute bottom-0 left-0 right-0 text-center text-xs bg-black/60 text-white rounded-b-lg py-0.5">Main</span>}
-              {isVideoUrl(url) && <span className="absolute top-0 left-0 text-xs bg-black/60 text-white rounded-tl-lg rounded-br-lg px-1 py-0.5">▶</span>}
+              {isVideoUrl(url) && <span className="absolute top-0 left-0 text-xs bg-black/60 text-white rounded-tl-lg rounded-br-lg px-1 py-0.5">â–¶</span>}
             </div>
           ))}
         </div>
@@ -211,13 +211,13 @@ export default function AdminProducts() {
     if (!editProduct && newCustomId) {
       const existing = products.find(p => p.custom_id === newCustomId)
       if (existing) {
-        toast.error(`Product ID "${newCustomId}" already exists — "${existing.name}". Edit that product instead.`, { duration: 5000 })
+        toast.error(`Product ID "${newCustomId}" already exists â€” "${existing.name}". Edit that product instead.`, { duration: 5000 })
         setSaving(false)
         return
       }
     }
     const stockValue = Number(form.stock)
-    // Separate stock from the rest of the payload — this prevents any DB trigger
+    // Separate stock from the rest of the payload â€” this prevents any DB trigger
     // on product UPDATE from accidentally decrementing the stock we just set.
     const payload = {
       name: form.name.trim(), price: Math.floor(Number(form.price)), category: form.category,
@@ -406,7 +406,7 @@ export default function AdminProducts() {
             <p className="text-xs text-gray-500">
               {pageSize === 9999
                 ? `Showing all ${filtered.length}`
-                : `Showing ${Math.min((page - 1) * pageSize + 1, filtered.length)}–${Math.min(page * pageSize, filtered.length)} of ${filtered.length}`}
+                : `Showing ${Math.min((page - 1) * pageSize + 1, filtered.length)}â€“${Math.min(page * pageSize, filtered.length)} of ${filtered.length}`}
             </p>
             <select value={pageSize} onChange={e => { setPageSize(Number(e.target.value)); setPage(1) }}
               className="bg-white border border-gray-200 rounded-lg px-2 py-1 text-xs text-[#1A1A2E] focus:outline-none focus:border-[#1B2B5E]">
@@ -416,7 +416,7 @@ export default function AdminProducts() {
           {totalPages > 1 && (
             <div className="flex items-center gap-1">
               <button onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1}
-                className="px-2 py-1 text-xs rounded border border-gray-200 text-gray-500 hover:border-[#1B2B5E] disabled:opacity-40">‹</button>
+                className="px-2 py-1 text-xs rounded border border-gray-200 text-gray-500 hover:border-[#1B2B5E] disabled:opacity-40">â€¹</button>
               {Array.from({ length: totalPages }, (_, i) => i + 1).map(p => (
                 <button key={p} onClick={() => setPage(p)}
                   className={`px-2.5 py-1 text-xs rounded border transition-all ${p === page ? "bg-[#1B2B5E] text-white border-[#1B2B5E]" : "border-gray-200 text-gray-500 hover:border-[#1B2B5E]"}`}>
@@ -424,7 +424,7 @@ export default function AdminProducts() {
                 </button>
               ))}
               <button onClick={() => setPage(p => Math.min(totalPages, p + 1))} disabled={page === totalPages}
-                className="px-2 py-1 text-xs rounded border border-gray-200 text-gray-500 hover:border-[#1B2B5E] disabled:opacity-40">›</button>
+                className="px-2 py-1 text-xs rounded border border-gray-200 text-gray-500 hover:border-[#1B2B5E] disabled:opacity-40">â€º</button>
             </div>
           )}
         </div>
@@ -447,7 +447,7 @@ export default function AdminProducts() {
                   <div className="col-span-2">
                     <label className="text-xs text-gray-400 mb-1 block">
                       Product ID <span className="text-gray-600">(e.g. NS0.1, NS1.5)</span>
-                      {editProduct && <span className="ml-2 text-[#C9956C] font-medium">· locked after creation</span>}
+                      {editProduct && <span className="ml-2 text-[#C9956C] font-medium">Â· locked after creation</span>}
                     </label>
                     <input
                       value={form.custom_id || ""}
@@ -472,7 +472,7 @@ export default function AdminProducts() {
                     {errors.name && <p className="text-red-400 text-xs mt-1">{errors.name}</p>}
                   </div>
                   <div>
-                    <label className="text-xs text-gray-400 mb-1 block">Price (₹) *</label>
+                    <label className="text-xs text-gray-400 mb-1 block">Price (â‚¹) *</label>
                     <input type="number" min="0" step="1" value={form.price} onChange={e => setForm(f => ({ ...f, price: Math.floor(Number(e.target.value)) || "" }))}
                       className="w-full bg-white border border-gray-200 rounded-lg px-3 py-2.5 text-sm text-[#1A1A2E] focus:outline-none focus:border-[#1B2B5E]"
                       placeholder="2499" />
@@ -617,3 +617,5 @@ export default function AdminProducts() {
     </div>
   )
 }
+
+

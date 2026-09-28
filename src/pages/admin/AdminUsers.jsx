@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+﻿import { useEffect, useState } from "react"
 import { Users, Search } from "lucide-react"
 import { supabase } from "../../lib/supabase"
 
@@ -77,13 +77,13 @@ export default function AdminUsers() {
                 <tr key={user.id} className="hover:bg-gray-50 transition-colors">
                   <td className="px-4 py-3 text-sm text-gray-900">{user.email}</td>
                   <td className="px-4 py-3 text-sm text-gray-600">
-                    {user.user_metadata?.full_name || user.user_metadata?.name || '—'}
+                    {user.user_metadata?.full_name || user.user_metadata?.name || 'â€”'}
                   </td>
                   <td className="px-4 py-3 text-sm text-gray-600">
                     {new Date(user.created_at).toLocaleDateString()}
                   </td>
                   <td className="px-4 py-3 text-sm text-gray-600">
-                    {user.last_sign_in_at ? new Date(user.last_sign_in_at).toLocaleDateString() : '—'}
+                    {user.last_sign_in_at ? new Date(user.last_sign_in_at).toLocaleDateString() : 'â€”'}
                   </td>
                 </tr>
               ))}
@@ -94,3 +94,5 @@ export default function AdminUsers() {
     </div>
   )
 }
+
+

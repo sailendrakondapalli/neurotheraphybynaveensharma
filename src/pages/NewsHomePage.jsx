@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+﻿import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import { motion } from 'framer-motion'
@@ -64,7 +64,7 @@ export default function NewsHomePage() {
   return (
     <>
       <Helmet>
-        <title>SR TV NEWS CHANNEL - Inform • Inspire • Empower</title>
+        <title>SR TV NEWS CHANNEL - Inform â€¢ Inspire â€¢ Empower</title>
         <meta name="description" content="Stay informed with SR TV NEWS CHANNEL - Your trusted source for breaking news, politics, business, sports, entertainment and more." />
       </Helmet>
 
@@ -183,3 +183,5 @@ export default function NewsHomePage() {
     </>
   )
 }
+
+

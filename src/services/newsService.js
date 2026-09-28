@@ -1,4 +1,4 @@
-import { supabase } from '../lib/supabase'
+﻿import { supabase } from '../lib/supabase'
 
 /**
  * Fetch published news articles with optional filters
@@ -268,15 +268,15 @@ export async function fetchSiteSettings() {
       console.error('fetchSiteSettings error:', error.message)
       return {
         site_name: 'SR TV NEWS CHANNEL',
-        site_tagline: 'Inform • Inspire • Empower'
+        site_tagline: 'Inform â€¢ Inspire â€¢ Empower'
       }
     }
-    return data || { site_name: 'SR TV NEWS CHANNEL', site_tagline: 'Inform • Inspire • Empower' }
+    return data || { site_name: 'SR TV NEWS CHANNEL', site_tagline: 'Inform â€¢ Inspire â€¢ Empower' }
   } catch (e) {
     console.error('fetchSiteSettings failed:', e.message)
     return {
       site_name: 'SR TV NEWS CHANNEL',
-      site_tagline: 'Inform • Inspire • Empower'
+      site_tagline: 'Inform â€¢ Inspire â€¢ Empower'
     }
   }
 }
@@ -437,3 +437,5 @@ export async function trackAdClick(adId) {
     console.error('trackAdClick failed:', e.message)
   }
 }
+
+

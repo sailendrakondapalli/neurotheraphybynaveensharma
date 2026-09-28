@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+﻿import { useEffect, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Plus, Edit2, Trash2, Eye, X, Search, Filter, FileText, TrendingUp, AlertCircle, Check } from "lucide-react"
 import { useNewsAdminStore } from "../../store/newsAdminStore"
@@ -140,8 +140,8 @@ export default function AdminNews() {
                       </div>
                     </div>
                   </td>
-                  <td className="px-4 py-3 text-sm text-gray-600">{item.category?.name || '—'}</td>
-                  <td className="px-4 py-3 text-sm text-gray-600">{item.reporter?.name || '—'}</td>
+                  <td className="px-4 py-3 text-sm text-gray-600">{item.category?.name || 'â€”'}</td>
+                  <td className="px-4 py-3 text-sm text-gray-600">{item.reporter?.name || 'â€”'}</td>
                   <td className="px-4 py-3">
                     <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
                       item.status === 'published' ? 'bg-green-100 text-green-700' :
@@ -404,3 +404,5 @@ function NewsFormModal({ newsItem, reporters, categories, onClose, onSave }) {
     </motion.div>
   )
 }
+
+

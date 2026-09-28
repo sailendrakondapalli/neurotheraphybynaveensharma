@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+﻿import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, Tag } from 'lucide-react'
 import { getSetting } from '../services/settingsService'
@@ -71,3 +71,5 @@ export default function OfferBanner() {
     </div>
   )
 }
+
+

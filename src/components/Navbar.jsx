@@ -144,7 +144,7 @@ export default function Navbar() {
                         <p className="text-[#1A1A2E] text-xs font-medium truncate">{p.name}</p>
                         <p className="text-[#8A8AAA] text-xs">{p.category}{p.custom_id ? ` · ${p.custom_id}` : ""}</p>
                       </div>
-                      <span className="text-[#1B2B5E] text-xs font-semibold flex-shrink-0">₹{p.price?.toLocaleString("en-IN")}</span>
+                      <span className="text-[#1B2B5E] text-xs font-semibold flex-shrink-0">?{p.price?.toLocaleString("en-IN")}</span>
                     </button>
                   ))}
                   <button onClick={() => handleSearch()}
@@ -256,7 +256,7 @@ export default function Navbar() {
                               <p className="text-[#1A1A2E] text-sm truncate">{p.name}</p>
                               <p className="text-[#8A8AAA] text-xs">{p.category}{p.custom_id ? ` · ${p.custom_id}` : ""}</p>
                             </div>
-                            <span className="text-[#1B2B5E] text-xs font-semibold flex-shrink-0">₹{p.price?.toLocaleString("en-IN")}</span>
+                            <span className="text-[#1B2B5E] text-xs font-semibold flex-shrink-0">?{p.price?.toLocaleString("en-IN")}</span>
                           </button>
                         ))}
                         <button onClick={() => { handleSearch(); setMenuOpen(false) }}
@@ -297,3 +297,5 @@ export default function Navbar() {
     </nav>
   )
 }
+
+

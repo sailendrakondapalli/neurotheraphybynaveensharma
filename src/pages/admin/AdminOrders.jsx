@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react"
+﻿import { useEffect, useState, useRef } from "react"
 import { useSearchParams } from "react-router-dom"
 import { motion, AnimatePresence } from "framer-motion"
 import { Search, ChevronDown, ChevronUp, AlertTriangle, Eye, Truck, Upload, RefreshCw } from "lucide-react"
@@ -54,7 +54,7 @@ function StatusDropdown({ orderId, currentStatus, onStatusUpdate }) {
                 className={`w-full text-left px-3 py-2 text-xs flex items-center gap-2 hover:bg-gray-50 transition-colors ${s.key === currentStatus ? "opacity-50 cursor-default" : ""}`}>
                 <span className={`w-2 h-2 rounded-full border ${s.color}`} />
                 <span className="text-gray-500">{s.label}</span>
-                {s.key === currentStatus && <span className="ml-auto text-gray-500">✓</span>}
+                {s.key === currentStatus && <span className="ml-auto text-gray-500">âœ“</span>}
               </button>
             ))}
           </motion.div>
@@ -121,7 +121,7 @@ function TrackingPanel({ order, onSave }) {
         <div className="relative inline-block">
           <img src={preview} alt="Tracking" className="h-24 rounded-lg border-2 border-orange-300 object-cover" />
           <button onClick={() => { setImage(null); setPreview(null) }}
-            className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold shadow">×</button>
+            className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold shadow">Ã—</button>
         </div>
       )}
       <button onClick={handleSave} disabled={saving}
@@ -187,8 +187,8 @@ function OrderRow({ order, expanded, onToggle, onStatusUpdate, onVerify, onRejec
                   )}
                   {order.upi_ref && <p className="text-gray-500 text-xs">UPI Ref: <span className="font-mono text-[#1A1A2E]">{order.upi_ref}</span></p>}
                   <div className="grid grid-cols-2 gap-2">
-                    <button onClick={() => onVerify(order.id)} className="py-2.5 bg-green-500 text-white text-sm font-bold rounded-lg hover:bg-green-600">✅ Confirm Payment</button>
-                    <button onClick={() => onReject(order.id)} className="py-2.5 bg-red-500 text-white text-sm font-bold rounded-lg hover:bg-red-600">❌ Reject</button>
+                    <button onClick={() => onVerify(order.id)} className="py-2.5 bg-green-500 text-white text-sm font-bold rounded-lg hover:bg-green-600">âœ… Confirm Payment</button>
+                    <button onClick={() => onReject(order.id)} className="py-2.5 bg-red-500 text-white text-sm font-bold rounded-lg hover:bg-red-600">âŒ Reject</button>
                   </div>
                 </div>
               )}
@@ -339,7 +339,7 @@ export default function AdminOrders() {
 
   const q = search.toLowerCase().trim()
 
-  // Search-filtered orders (ignoring tab) — used for tab counts
+  // Search-filtered orders (ignoring tab) â€” used for tab counts
   const searchFiltered = localOrders.filter(o => {
     if (!q) return true
     const id = (o.display_order_id || "").toLowerCase()
@@ -347,7 +347,7 @@ export default function AdminOrders() {
     return id.includes(q) || String(o.id).toLowerCase().includes(q) || (addr.full_name||"").toLowerCase().includes(q) || (addr.phone||"").toLowerCase().includes(q)
   })
 
-  // Count per tab — based on search results only
+  // Count per tab â€” based on search results only
   const countFor = (tabKey) => {
     if (tabKey === "all") return searchFiltered.length
     if (tabKey === "pending") return searchFiltered.filter(o => o.payment_status === "pending_verification").length
@@ -379,7 +379,7 @@ export default function AdminOrders() {
       const addr = (() => { try { return typeof order.address === "object" ? order.address : JSON.parse(order.address) } catch { return {} } })()
       const phone = addr.phone?.replace(/\D/g, "")
       if (phone) {
-        const msg = encodeURIComponent(`*Order Cancelled - NaShe Jewels*\n\nHi ${addr.full_name||"Customer"},\n\nYour order *${order.display_order_id||"#"+String(order.id).slice(-6).toUpperCase()}* has been cancelled.\nAmount: ₹${order.total_amount?.toLocaleString("en-IN")}\n\nIf you paid, your refund will be processed within 5-7 business days.\n\nFor queries: +91 8639006849\n\nNaShe Jewels`)
+        const msg = encodeURIComponent(`*Order Cancelled - NaShe Jewels*\n\nHi ${addr.full_name||"Customer"},\n\nYour order *${order.display_order_id||"#"+String(order.id).slice(-6).toUpperCase()}* has been cancelled.\nAmount: â‚¹${order.total_amount?.toLocaleString("en-IN")}\n\nIf you paid, your refund will be processed within 5-7 business days.\n\nFor queries: +91 8639006849\n\nNaShe Jewels`)
         window.open(`https://wa.me/91${phone}?text=${msg}`, "_blank")
       }
     }
@@ -405,7 +405,7 @@ export default function AdminOrders() {
       const addr = (() => { try { return typeof order.address === "object" ? order.address : JSON.parse(order.address) } catch { return {} } })()
       const phone = addr.phone?.replace(/\D/g, "")
       if (phone) {
-        const msg = encodeURIComponent(`*Order Rejected - NaShe Jewels*\n\nHi ${addr.full_name||"Customer"},\n\nYour order *${order.display_order_id||"#"+String(order.id).slice(-6).toUpperCase()}* has been rejected due to payment verification failure.\nAmount: ₹${order.total_amount?.toLocaleString("en-IN")}\n\nContact us at +91 8639006849.\n\nNaShe Jewels`)
+        const msg = encodeURIComponent(`*Order Rejected - NaShe Jewels*\n\nHi ${addr.full_name||"Customer"},\n\nYour order *${order.display_order_id||"#"+String(order.id).slice(-6).toUpperCase()}* has been rejected due to payment verification failure.\nAmount: â‚¹${order.total_amount?.toLocaleString("en-IN")}\n\nContact us at +91 8639006849.\n\nNaShe Jewels`)
         window.open(`https://wa.me/91${phone}?text=${msg}`, "_blank")
       }
     }
@@ -414,7 +414,7 @@ export default function AdminOrders() {
   const notifyCustomer = (order, addr) => {
     const phone = addr.phone?.replace(/\D/g, "")
     if (!phone) { toast.error("No phone number"); return }
-    const msg = encodeURIComponent(`*Order Update - NaShe Jewels*\n\nHi ${addr.full_name||"Customer"},\nOrder ${order.display_order_id||"#"+String(order.id).slice(-6).toUpperCase()} status: ${order.order_status||"confirmed"}\nAmount: ₹${order.total_amount?.toLocaleString("en-IN")}\n\nNaShe Jewels`)
+    const msg = encodeURIComponent(`*Order Update - NaShe Jewels*\n\nHi ${addr.full_name||"Customer"},\nOrder ${order.display_order_id||"#"+String(order.id).slice(-6).toUpperCase()} status: ${order.order_status||"confirmed"}\nAmount: â‚¹${order.total_amount?.toLocaleString("en-IN")}\n\nNaShe Jewels`)
     window.open(`https://wa.me/91${phone}?text=${msg}`, "_blank")
   }
 
@@ -492,7 +492,7 @@ export default function AdminOrders() {
                 <p className="text-xs text-gray-500">
                   {pageSize === 9999
                     ? `Showing all ${filtered.length}`
-                    : `Showing ${Math.min((page-1)*pageSize+1, filtered.length)}–${Math.min(page*pageSize, filtered.length)} of ${filtered.length}`}
+                    : `Showing ${Math.min((page-1)*pageSize+1, filtered.length)}â€“${Math.min(page*pageSize, filtered.length)} of ${filtered.length}`}
                 </p>
                 <select value={pageSize} onChange={e => { setPageSize(Number(e.target.value)); setPage(1) }}
                   className="bg-white border border-gray-200 rounded-lg px-2 py-1 text-xs focus:outline-none focus:border-[#1B2B5E]">
@@ -502,7 +502,7 @@ export default function AdminOrders() {
               {totalPages > 1 && (
                 <div className="flex items-center gap-1">
                   <button onClick={() => setPage(p => Math.max(1, p-1))} disabled={page === 1}
-                    className="px-2 py-1 text-xs rounded border border-gray-200 text-gray-500 hover:border-[#1B2B5E] disabled:opacity-40">‹</button>
+                    className="px-2 py-1 text-xs rounded border border-gray-200 text-gray-500 hover:border-[#1B2B5E] disabled:opacity-40">â€¹</button>
                   {Array.from({ length: totalPages }, (_, i) => i+1).map(p => (
                     <button key={p} onClick={() => setPage(p)}
                       className={`px-2.5 py-1 text-xs rounded border transition-all ${p === page ? "bg-[#1B2B5E] text-white border-[#1B2B5E]" : "border-gray-200 text-gray-500 hover:border-[#1B2B5E]"}`}>
@@ -510,7 +510,7 @@ export default function AdminOrders() {
                     </button>
                   ))}
                   <button onClick={() => setPage(p => Math.min(totalPages, p+1))} disabled={page === totalPages}
-                    className="px-2 py-1 text-xs rounded border border-gray-200 text-gray-500 hover:border-[#1B2B5E] disabled:opacity-40">›</button>
+                    className="px-2 py-1 text-xs rounded border border-gray-200 text-gray-500 hover:border-[#1B2B5E] disabled:opacity-40">â€º</button>
                 </div>
               )}
             </div>
@@ -537,3 +537,5 @@ export default function AdminOrders() {
     </div>
   )
 }
+
+

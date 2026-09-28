@@ -1,5 +1,5 @@
-/**
- * Recommendation engine: same category + ±20% price + matching tags
+﻿/**
+ * Recommendation engine: same category + Â±20% price + matching tags
  */
 export function getRecommendations(product, allProducts, limit = 6) {
   if (!product || !allProducts?.length) return []
@@ -33,3 +33,5 @@ export function getRecommendations(product, allProducts, limit = 6) {
 
   return results.map(({ _score, ...p }) => p)
 }
+
+

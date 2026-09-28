@@ -1,4 +1,4 @@
-import { supabase } from '../lib/supabase'
+﻿import { supabase } from '../lib/supabase'
 
 // Fetch all active codes
 export async function fetchActiveCodes() {
@@ -38,7 +38,7 @@ export async function fetchUsedCodeIds(userId) {
  *
  * @param {object} promo  - promo_codes row
  * @param {Array}  items  - cart items: [{ products: { price, category }, quantity }]
- * @returns {number} discountAmount in ₹ (integer)
+ * @returns {number} discountAmount in â‚¹ (integer)
  */
 export function calcItemDiscount(promo, items) {
   // Determine which items qualify
@@ -65,7 +65,7 @@ export function calcItemDiscount(promo, items) {
   if (promo.discount_type === 'percentage') {
     return Math.floor((qualifyingSubtotal * promo.discount_value) / 100)
   } else {
-    // Flat — cap at qualifying subtotal so we never discount more than the products cost
+    // Flat â€” cap at qualifying subtotal so we never discount more than the products cost
     return Math.min(promo.discount_value, qualifyingSubtotal)
   }
 }
@@ -86,7 +86,7 @@ export function checkEligibility(promo, { cartSubtotal, cartCategories, usedIds 
   }
   // Min order (on product subtotal only)
   if (promo.min_order_amount && cartSubtotal < promo.min_order_amount) {
-    return { eligible: false, reason: `Min order ₹${promo.min_order_amount.toLocaleString('en-IN')} required` }
+    return { eligible: false, reason: `Min order â‚¹${promo.min_order_amount.toLocaleString('en-IN')} required` }
   }
   // Category
   if (promo.applicable_category) {
@@ -98,7 +98,7 @@ export function checkEligibility(promo, { cartSubtotal, cartCategories, usedIds 
 
 /**
  * Full server-side validation before order placement (authoritative check).
- * Discount is calculated on product subtotal only — shipping excluded.
+ * Discount is calculated on product subtotal only â€” shipping excluded.
  */
 export async function validatePromoCode({ code, userId, cartSubtotal, cartItems = [], cartCategories = [] }) {
   const { data: promo, error } = await supabase
@@ -114,7 +114,7 @@ export async function validatePromoCode({ code, userId, cartSubtotal, cartItems 
     return { valid: false, message: 'This promo code has expired' }
   }
   if (promo.min_order_amount && cartSubtotal < promo.min_order_amount) {
-    return { valid: false, message: `Minimum order of ₹${promo.min_order_amount.toLocaleString('en-IN')} required` }
+    return { valid: false, message: `Minimum order of â‚¹${promo.min_order_amount.toLocaleString('en-IN')} required` }
   }
   if (promo.applicable_category) {
     const matches = cartCategories.some(c => c.toLowerCase() === promo.applicable_category.toLowerCase())
@@ -159,3 +159,5 @@ export async function deletePromoCode(id) {
   const { error } = await supabase.from('promo_codes').delete().eq('id', id)
   if (error) throw error
 }
+
+

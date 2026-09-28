@@ -66,3 +66,5 @@ export async function deleteProductImage(publicUrl) {
     console.warn("Failed to delete file from storage:", e)
   }
 }
+
+

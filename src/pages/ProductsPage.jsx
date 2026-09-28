@@ -159,7 +159,7 @@ export default function ProductsPage() {
           </div>
         ) : products.length === 0 ? (
           <div className="text-center py-20">
-            <p className="text-4xl mb-4">💎</p>
+            <p className="text-4xl mb-4">??</p>
             <p className="text-[#4A4A6A] text-lg">No jewelry found</p>
             <p className="text-[#8A8AAA] text-sm mt-2">Try adjusting your filters</p>
             <button onClick={clearFilters} className="mt-4 px-6 py-2 bg-[#1B2B5E] text-white rounded-lg text-sm font-medium hover:bg-[#2A3F7E] transition-all">
@@ -219,3 +219,5 @@ export default function ProductsPage() {
     </>
   )
 }
+
+

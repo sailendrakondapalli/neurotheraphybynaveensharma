@@ -9,3 +9,5 @@ export const TAGS = ["traditional", "modern", "bridal", "dailywear", "premium"]
 
 // Mock products removed — all products come from Supabase only
 export const mockProducts = []
+
+

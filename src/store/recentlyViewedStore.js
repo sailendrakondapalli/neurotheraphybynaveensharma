@@ -1,4 +1,4 @@
-import { create } from 'zustand'
+﻿import { create } from 'zustand'
 
 const KEY = 'recently_viewed'
 const MAX = 10
@@ -17,3 +17,5 @@ export const useRecentlyViewedStore = create((set, get) => ({
     set({ items: updated })
   },
 }))
+
+

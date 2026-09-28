@@ -49,3 +49,5 @@ export async function setDefaultAddress(id, userId) {
   await supabase.from("addresses").update({ is_default: false }).eq("user_id", userId)
   await supabase.from("addresses").update({ is_default: true }).eq("id", id).eq("user_id", userId)
 }
+
+

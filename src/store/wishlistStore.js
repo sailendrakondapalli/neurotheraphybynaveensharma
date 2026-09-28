@@ -57,3 +57,5 @@ export const useWishlistStore = create((set, get) => ({
 
   isWishlisted: (productId) => get().items.some(i => i.product_id === productId),
 }))
+
+

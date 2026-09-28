@@ -1,4 +1,4 @@
-import { create } from 'zustand'
+﻿import { create } from 'zustand'
 import { supabase } from '../lib/supabase'
 import { CATEGORIES as DEFAULT_CATEGORIES } from '../data/products'
 
@@ -64,3 +64,5 @@ export const useCategoryStore = create((set, get) => ({
 
   isDefault: (name) => DEFAULT_CATEGORIES.includes(name),
 }))
+
+

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+﻿import { useState, useEffect } from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X, Search } from 'lucide-react'
@@ -149,9 +149,9 @@ export default function NewsNavbar() {
               {/* Tagline */}
               <div className="hidden lg:flex items-center gap-2 text-[18px] font-medium text-white">
                 <span>Inform</span>
-                <span className="text-[#E60012] text-lg">●</span>
+                <span className="text-[#E60012] text-lg">â—</span>
                 <span>Inspire</span>
-                <span className="text-[#E60012] text-lg">●</span>
+                <span className="text-[#E60012] text-lg">â—</span>
                 <span>Empower</span>
               </div>
             </div>
@@ -389,3 +389,5 @@ export default function NewsNavbar() {
     </header>
   )
 }
+
+

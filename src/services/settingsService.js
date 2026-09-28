@@ -1,4 +1,4 @@
-import { supabase } from '../lib/supabase'
+﻿import { supabase } from '../lib/supabase'
 
 export async function getSetting(key) {
   const { data } = await supabase
@@ -15,3 +15,5 @@ export async function setSetting(key, value) {
     .upsert({ key, value, updated_at: new Date().toISOString() })
   if (error) throw error
 }
+
+

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+﻿import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Plus, Trash2, Pencil, Loader2, X, Check, Tag, ToggleLeft, ToggleRight } from "lucide-react"
 import { fetchAllCodes, createPromoCode, updatePromoCode, deletePromoCode } from "../../services/promoService"
@@ -130,7 +130,7 @@ export default function AdminPromoCodes() {
                       </div>
                     </td>
                     <td className="px-5 py-3 font-semibold text-[#1B2B5E]">
-                      {c.discount_type === 'percentage' ? `${c.discount_value}% off` : `₹${c.discount_value} off`}
+                      {c.discount_type === 'percentage' ? `${c.discount_value}% off` : `â‚¹${c.discount_value} off`}
                     </td>
                     <td className="px-5 py-3 text-gray-500 text-xs space-y-0.5">
                       {c.min_order_amount > 0 && <p>Min order: {formatINR(c.min_order_amount)}</p>}
@@ -166,11 +166,11 @@ export default function AdminPromoCodes() {
       {totalPages > 1 && (
         <div className="flex items-center justify-between flex-wrap gap-2">
           <p className="text-xs text-gray-500">
-            Showing {(page - 1) * PAGE_SIZE + 1}–{Math.min(page * PAGE_SIZE, codes.length)} of {codes.length}
+            Showing {(page - 1) * PAGE_SIZE + 1}â€“{Math.min(page * PAGE_SIZE, codes.length)} of {codes.length}
           </p>
           <div className="flex items-center gap-1">
             <button onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1}
-              className="px-2 py-1 text-xs rounded border border-gray-200 text-gray-500 hover:border-[#1B2B5E] disabled:opacity-40">‹</button>
+              className="px-2 py-1 text-xs rounded border border-gray-200 text-gray-500 hover:border-[#1B2B5E] disabled:opacity-40">â€¹</button>
             {Array.from({ length: totalPages }, (_, i) => i + 1).map(p => (
               <button key={p} onClick={() => setPage(p)}
                 className={`px-2.5 py-1 text-xs rounded border transition-all ${p === page ? "bg-[#1B2B5E] text-white border-[#1B2B5E]" : "border-gray-200 text-gray-500 hover:border-[#1B2B5E]"}`}>
@@ -178,7 +178,7 @@ export default function AdminPromoCodes() {
               </button>
             ))}
             <button onClick={() => setPage(p => Math.min(totalPages, p + 1))} disabled={page === totalPages}
-              className="px-2 py-1 text-xs rounded border border-gray-200 text-gray-500 hover:border-[#1B2B5E] disabled:opacity-40">›</button>
+              className="px-2 py-1 text-xs rounded border border-gray-200 text-gray-500 hover:border-[#1B2B5E] disabled:opacity-40">â€º</button>
           </div>
         </div>
       )}
@@ -212,7 +212,7 @@ export default function AdminPromoCodes() {
                     <label className={lbl}>Discount Type</label>
                     <select value={form.discount_type} onChange={e => setForm(f => ({ ...f, discount_type: e.target.value }))} className={inp}>
                       <option value="percentage">Percentage (%)</option>
-                      <option value="flat">Flat Amount (₹)</option>
+                      <option value="flat">Flat Amount (â‚¹)</option>
                     </select>
                   </div>
                   <div>
@@ -222,7 +222,7 @@ export default function AdminPromoCodes() {
                       placeholder={form.discount_type === 'percentage' ? "e.g. 10" : "e.g. 100"} className={inp} />
                   </div>
                   <div>
-                    <label className={lbl}>Min Order Amount (₹)</label>
+                    <label className={lbl}>Min Order Amount (â‚¹)</label>
                     <input type="number" min="0" value={form.min_order_amount}
                       onChange={e => setForm(f => ({ ...f, min_order_amount: e.target.value }))}
                       placeholder="0 = no minimum" className={inp} />
@@ -286,3 +286,5 @@ export default function AdminPromoCodes() {
     </div>
   )
 }
+
+
