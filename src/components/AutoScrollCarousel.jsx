@@ -3,7 +3,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react'
 
 export default function AutoScrollCarousel({ children, autoScroll = true, speed = 30, className = '' }) {
   const scrollRef = useRef(null)
-  const [isHovering, setIsHovering] = useState(false)
+  const [isInteracting, setIsInteracting] = useState(false)
   const [canScrollLeft, setCanScrollLeft] = useState(false)
   const [canScrollRight, setCanScrollRight] = useState(true)
 
@@ -18,7 +18,7 @@ export default function AutoScrollCarousel({ children, autoScroll = true, speed 
 
     let animationId
     const scroll = () => {
-      if (!isHovering && el) {
+      if (!isInteracting && el) {
         el.scrollLeft += 1
         // Loop back to start when reaching end
         if (el.scrollLeft >= el.scrollWidth - el.clientWidth) {
@@ -29,7 +29,7 @@ export default function AutoScrollCarousel({ children, autoScroll = true, speed 
     }
 
     const interval = setInterval(() => {
-      if (!isHovering) scroll()
+      if (!isInteracting) scroll()
     }, speed)
 
     el.addEventListener('scroll', checkScroll)
@@ -40,7 +40,7 @@ export default function AutoScrollCarousel({ children, autoScroll = true, speed 
       if (animationId) cancelAnimationFrame(animationId)
       el.removeEventListener('scroll', checkScroll)
     }
-  }, [isHovering, autoScroll, speed])
+  }, [isInteracting, autoScroll, speed])
 
   const scrollLeft = () => {
     scrollRef.current?.scrollBy({ left: -300, behavior: 'smooth' })
@@ -50,22 +50,27 @@ export default function AutoScrollCarousel({ children, autoScroll = true, speed 
     scrollRef.current?.scrollBy({ left: 300, behavior: 'smooth' })
   }
 
+  const handleInteractionStart = () => setIsInteracting(true)
+  const handleInteractionEnd = () => setIsInteracting(false)
+
   return (
     <div className="relative group">
       <div
         ref={scrollRef}
-        onMouseEnter={() => setIsHovering(true)}
-        onMouseLeave={() => setIsHovering(false)}
+        onMouseEnter={handleInteractionStart}
+        onMouseLeave={handleInteractionEnd}
+        onTouchStart={handleInteractionStart}
+        onTouchEnd={handleInteractionEnd}
         className={`flex gap-3 overflow-x-auto pb-2 scroll-smooth ${className}`}
-        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', WebkitOverflowScrolling: 'touch' }}>
         {children}
       </div>
 
-      {/* Manual scroll buttons */}
+      {/* Manual scroll buttons - hidden on mobile, visible on hover on desktop */}
       {canScrollLeft && (
         <button
           onClick={scrollLeft}
-          className="absolute left-0 top-1/2 -translate-y-1/2 w-8 h-8 bg-white/90 hover:bg-white border border-gray-200 rounded-full flex items-center justify-center shadow-md opacity-0 group-hover:opacity-100 transition-opacity z-10">
+          className="absolute left-0 top-1/2 -translate-y-1/2 w-8 h-8 bg-white/90 hover:bg-white border border-gray-200 rounded-full items-center justify-center shadow-md opacity-0 group-hover:opacity-100 transition-opacity z-10 hidden md:flex">
           <ChevronLeft size={16} className="text-[#3D5A73]" />
         </button>
       )}
@@ -73,7 +78,7 @@ export default function AutoScrollCarousel({ children, autoScroll = true, speed 
       {canScrollRight && (
         <button
           onClick={scrollRight}
-          className="absolute right-0 top-1/2 -translate-y-1/2 w-8 h-8 bg-white/90 hover:bg-white border border-gray-200 rounded-full flex items-center justify-center shadow-md opacity-0 group-hover:opacity-100 transition-opacity z-10">
+          className="absolute right-0 top-1/2 -translate-y-1/2 w-8 h-8 bg-white/90 hover:bg-white border border-gray-200 rounded-full items-center justify-center shadow-md opacity-0 group-hover:opacity-100 transition-opacity z-10 hidden md:flex">
           <ChevronRight size={16} className="text-[#3D5A73]" />
         </button>
       )}
