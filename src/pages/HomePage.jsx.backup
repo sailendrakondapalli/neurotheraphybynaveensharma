@@ -9,11 +9,10 @@ import {
 import {
   getHomepageSettings, getWebsiteSettings, getPublishedServices,
   getPublishedBenefits, getPublishedTestimonials, getPublishedGallery,
-  getPublishedVideos, getPublishedFaqs, getPublishedAchievements, submitAppointment
+  getPublishedVideos, getPublishedFaqs, submitAppointment
 } from '../services/neurotherapyService'
 import { getYouTubeEmbedUrl, getYouTubeThumbnail } from '../services/uploadService'
 import { useLanguage } from '../lib/LanguageContext'
-import AutoScrollCarousel from '../components/AutoScrollCarousel'
 import toast from 'react-hot-toast'
 
 const fadeUp = { hidden: { opacity: 0, y: 24 }, show: { opacity: 1, y: 0, transition: { duration: 0.5 } } }
@@ -137,7 +136,6 @@ export default function HomePage() {
   const [testimonials, setTestimonials] = useState([])
   const [gallery, setGallery] = useState([])
   const [videos, setVideos] = useState([])
-  const [achievements, setAchievements] = useState([])
   const [faqs, setFaqs] = useState([])
   const [activeVideo, setActiveVideo] = useState(null)
   const [activeFaq, setActiveFaq] = useState(null)
@@ -149,8 +147,8 @@ export default function HomePage() {
     Promise.all([
       getHomepageSettings(), getWebsiteSettings(), getPublishedServices(),
       getPublishedBenefits(), getPublishedTestimonials(), getPublishedGallery(),
-      getPublishedVideos(), getPublishedFaqs(), getPublishedAchievements()
-    ]).then(([home, site, svcs, bens, tests, gals, vids, fqs, achs]) => {
+      getPublishedVideos(), getPublishedFaqs()
+    ]).then(([home, site, svcs, bens, tests, gals, vids, fqs]) => {
       setHomepage(home)
       setSettings(site)
       setAllServices(svcs)
@@ -160,7 +158,6 @@ export default function HomePage() {
       setGallery(gals.slice(0, 6))
       setVideos(vids.slice(0, 3))
       setFaqs(fqs.slice(0, 5))
-      setAchievements(achs.slice(0, 6))
     }).catch(console.error).finally(() => setLoading(false))
   }, [])
 
@@ -242,33 +239,47 @@ export default function HomePage() {
               {lang === 'hi' ? 'अभी कोई सेवा नहीं है।' : 'No services yet. Add services from the admin panel.'}
             </div>
           ) : (
-            <AutoScrollCarousel autoScroll={true} speed={40}>
-              {services.map((service, i) => (
-                <motion.div key={service.id}
-                  initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.06 }}
-                  className="flex-shrink-0 w-[150px] sm:w-[170px]">
-                  <Link to={`/services/${service.slug}`}
-                    className="flex flex-col bg-white rounded-xl border border-gray-100 hover:border-[#c5e0f5] hover:shadow-lg transition-all group overflow-hidden h-full">
-                    <div className="h-[85px] bg-gradient-to-br from-[#eaf4fb] to-[#dff0f8] overflow-hidden flex-shrink-0">
-                      {service.image
-                        ? <img src={service.image} alt={service.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy" />
-                        : <div className="w-full h-full flex items-center justify-center text-4xl">🩺</div>}
-                    </div>
-                    <div className="p-2.5 flex flex-col flex-1">
-                      <h3 className="font-bold text-[#063B63] text-[12px] leading-snug mb-1 group-hover:text-[#0877B8] transition-colors">
-                        {lang === 'hi' && service.title_hi ? service.title_hi : service.title}
-                      </h3>
-                      <p className="text-[#7A9BB5] text-[11px] leading-relaxed line-clamp-2 flex-1">
-                        {lang === 'hi' && service.short_description_hi ? service.short_description_hi : service.short_description}
-                      </p>
-                      <div className="mt-2 w-6 h-6 bg-[#eaf4fb] group-hover:bg-[#0877B8] rounded-full flex items-center justify-center transition-colors">
-                        <ArrowRight size={11} className="text-[#0877B8] group-hover:text-white transition-colors" />
+            <div className="relative">
+              <div ref={servicesScrollRef}
+                className="flex gap-3 overflow-x-auto pb-2"
+                style={{ scrollbarWidth: 'none' }}>
+                {services.map((service, i) => (
+                  <motion.div key={service.id}
+                    initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.06 }}
+                    className="flex-shrink-0 w-[150px] sm:w-[170px]">
+                    <Link to={`/services/${service.slug}`}
+                      className="flex flex-col bg-white rounded-xl border border-gray-100 hover:border-[#c5e0f5] hover:shadow-lg transition-all group overflow-hidden h-full">
+                      <div className="h-[85px] bg-gradient-to-br from-[#eaf4fb] to-[#dff0f8] overflow-hidden flex-shrink-0">
+                        {service.image
+                          ? <img src={service.image} alt={service.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy" />
+                          : <div className="w-full h-full flex items-center justify-center text-4xl">🩺</div>}
                       </div>
-                    </div>
-                  </Link>
-                </motion.div>
-              ))}
-            </AutoScrollCarousel>
+                      <div className="p-2.5 flex flex-col flex-1">
+                        <h3 className="font-bold text-[#063B63] text-[12px] leading-snug mb-1 group-hover:text-[#0877B8] transition-colors">
+                          {lang === 'hi' && service.title_hi ? service.title_hi : service.title}
+                        </h3>
+                        <p className="text-[#7A9BB5] text-[11px] leading-relaxed line-clamp-2 flex-1">
+                          {lang === 'hi' && service.short_description_hi ? service.short_description_hi : service.short_description}
+                        </p>
+                        <div className="mt-2 w-6 h-6 bg-[#eaf4fb] group-hover:bg-[#0877B8] rounded-full flex items-center justify-center transition-colors">
+                          <ArrowRight size={11} className="text-[#0877B8] group-hover:text-white transition-colors" />
+                        </div>
+                      </div>
+                    </Link>
+                  </motion.div>
+                ))}
+              </div>
+              <div className="absolute right-0 top-0 flex gap-1">
+                <button onClick={() => servicesScrollRef.current?.scrollBy({ left: -300, behavior: 'smooth' })}
+                  className="w-7 h-7 bg-white border border-gray-200 rounded-full flex items-center justify-center shadow-sm hover:bg-gray-50">
+                  <ChevronRight size={13} className="rotate-180 text-[#3D5A73]" />
+                </button>
+                <button onClick={() => servicesScrollRef.current?.scrollBy({ left: 300, behavior: 'smooth' })}
+                  className="w-7 h-7 bg-white border border-gray-200 rounded-full flex items-center justify-center shadow-sm hover:bg-gray-50">
+                  <ChevronRight size={13} className="text-[#3D5A73]" />
+                </button>
+              </div>
+            </div>
           )}
         </div>
       </section>
@@ -465,14 +476,14 @@ export default function HomePage() {
               ))}
             </div>
           ) : (
-            <AutoScrollCarousel autoScroll={true} speed={35}>
+            <div className="grid grid-cols-3 md:grid-cols-6 gap-2">
               {gallery.map(item => (
-                <Link to="/gallery" key={item.id} className="relative flex-shrink-0 w-[140px] h-[140px] overflow-hidden rounded-xl group">
+                <Link to="/gallery" key={item.id} className="relative aspect-square overflow-hidden rounded-xl group">
                   <img src={item.image} alt={item.title || 'Gallery'}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" loading="lazy" />
                 </Link>
               ))}
-            </AutoScrollCarousel>
+            </div>
           )}
         </div>
       </section>
@@ -489,12 +500,12 @@ export default function HomePage() {
                 {lang === 'hi' ? 'सभी देखें →' : 'View All →'}
               </Link>
             </div>
-            <AutoScrollCarousel autoScroll={true} speed={45}>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               {videos.map(video => {
                 const thumb = video.thumbnail || getYouTubeThumbnail(video.video_url)
                 return (
                   <button key={video.id} onClick={() => setActiveVideo(video)}
-                    className="flex-shrink-0 w-[280px] group text-left bg-white rounded-xl overflow-hidden border border-gray-100 hover:shadow-lg transition-all">
+                    className="group text-left bg-white rounded-xl overflow-hidden border border-gray-100 hover:shadow-lg transition-all">
                     <div className="relative h-40 bg-gray-100 overflow-hidden">
                       {thumb
                         ? <img src={thumb} alt={video.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy" />
@@ -511,70 +522,14 @@ export default function HomePage() {
                   </button>
                 )
               })}
-            </AutoScrollCarousel>
-          </div>
-        </section>
-      )}
-
-      {/* ACHIEVEMENTS & AWARDS */}
-      {achievements.length > 0 && (
-        <section className="py-10 bg-white">
-          <div className="max-w-7xl mx-auto px-4">
-            <div className="flex items-end justify-between mb-4">
-              <div>
-                <h2 className="text-xl font-bold text-[#063B63]" style={{ fontFamily: 'Poppins, sans-serif' }}>
-                  {lang === 'hi' ? 'उपलब्धियां और पुरस्कार' : 'Achievements & Awards'}
-                </h2>
-                <p className="text-[#7A9BB5] text-xs mt-0.5">
-                  {lang === 'hi' ? 'मान्यता और उपलब्धियां' : 'Recognition and accomplishments'}
-                </p>
-              </div>
             </div>
-            <AutoScrollCarousel autoScroll={true} speed={38}>
-              {achievements.map(achievement => (
-                <div key={achievement.id} className="flex-shrink-0 w-[240px] bg-white rounded-xl border border-gray-100 hover:border-amber-200 hover:shadow-lg transition-all p-4">
-                  {achievement.image ? (
-                    <div className="w-full h-32 mb-3 rounded-lg overflow-hidden">
-                      <img src={achievement.image} alt={achievement.title} className="w-full h-full object-cover" loading="lazy" />
-                    </div>
-                  ) : (
-                    <div className="w-full h-32 mb-3 rounded-lg bg-gradient-to-br from-amber-50 to-amber-100 flex items-center justify-center">
-                      <span className="text-4xl">🏆</span>
-                    </div>
-                  )}
-                  <div className="flex items-start gap-2 mb-2">
-                    <span className={`text-[10px] px-2 py-0.5 rounded-full font-medium ${
-                      achievement.category === 'award' ? 'bg-amber-50 text-amber-700' :
-                      achievement.category === 'certification' ? 'bg-blue-50 text-blue-700' :
-                      achievement.category === 'recognition' ? 'bg-purple-50 text-purple-700' :
-                      'bg-green-50 text-green-700'
-                    }`}>
-                      {achievement.category}
-                    </span>
-                    {achievement.date && (
-                      <span className="text-[10px] text-[#7A9BB5]">
-                        {new Date(achievement.date).getFullYear()}
-                      </span>
-                    )}
-                  </div>
-                  <h3 className="font-bold text-[#063B63] text-sm mb-1 line-clamp-2">
-                    {lang === 'hi' && achievement.title_hi ? achievement.title_hi : achievement.title}
-                  </h3>
-                  {(achievement.description || achievement.description_hi) && (
-                    <p className="text-[#7A9BB5] text-xs leading-relaxed line-clamp-2">
-                      {lang === 'hi' && achievement.description_hi ? achievement.description_hi : achievement.description}
-                    </p>
-                  )}
-                </div>
-              ))}
-            </AutoScrollCarousel>
           </div>
         </section>
       )}
 
       {/* FAQ */}
       {faqs.length > 0 && (
-        <section className="py-10 bg-[#f5fafc]">
+        <section className="py-10 bg-white">
           <div className="max-w-3xl mx-auto px-4">
             <h2 className="text-xl font-bold text-[#063B63] mb-5 text-center" style={{ fontFamily: 'Poppins, sans-serif' }}>
               {lang === 'hi' ? 'अक्सर पूछे जाने वाले प्रश्न' : 'Frequently Asked Questions'}

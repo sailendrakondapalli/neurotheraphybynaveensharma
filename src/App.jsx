@@ -42,6 +42,7 @@ const AdminSettings = lazy(() => import('./pages/admin/AdminSettings'))
 const AdminAbout = lazy(() => import('./pages/admin/AdminAbout'))
 const AdminNeurotherapy = lazy(() => import('./pages/admin/AdminNeurotherapy'))
 const AdminFlashNews = lazy(() => import('./pages/admin/AdminFlashNews'))
+const AdminAchievements = lazy(() => import('./pages/admin/AdminAchievements'))
 
 const PageLoader = () => (
   <div className="min-h-[60vh] flex items-center justify-center">
@@ -88,6 +89,7 @@ export default function App() {
                         <Route path="about" element={<AdminAbout />} />
                         <Route path="neurotherapy" element={<AdminNeurotherapy />} />
                         <Route path="flash-news" element={<AdminFlashNews />} />
+                        <Route path="achievements" element={<AdminAchievements />} />
                       </Routes>
                     </Suspense>
                   </ErrorBoundary>

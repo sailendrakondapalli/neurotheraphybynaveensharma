@@ -496,3 +496,53 @@ export async function getRecentTestimonials(limit = 5) {
 }
 
 
+
+
+// ─── ACHIEVEMENTS & AWARDS ────────────────────────────────────────────────────────────────
+export async function getPublishedAchievements() {
+  const { data, error } = await supabase
+    .from('achievements')
+    .select('*')
+    .eq('is_published', true)
+    .order('display_order', { ascending: true })
+  if (error) throw error
+  return data || []
+}
+
+export async function getAllAchievementsAdmin() {
+  const { data, error } = await supabase
+    .from('achievements')
+    .select('*')
+    .order('display_order', { ascending: true })
+  if (error) throw error
+  return data || []
+}
+
+export async function createAchievement(achievement) {
+  const { data, error } = await supabase
+    .from('achievements')
+    .insert(achievement)
+    .select()
+    .single()
+  if (error) throw error
+  return data
+}
+
+export async function updateAchievement(id, updates) {
+  const { data, error } = await supabase
+    .from('achievements')
+    .update(updates)
+    .eq('id', id)
+    .select()
+    .single()
+  if (error) throw error
+  return data
+}
+
+export async function deleteAchievement(id) {
+  const { error } = await supabase
+    .from('achievements')
+    .delete()
+    .eq('id', id)
+  if (error) throw error
+}

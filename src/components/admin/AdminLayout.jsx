@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom"
 import { motion, AnimatePresence } from "framer-motion"
 import {
   LayoutDashboard, Stethoscope, Star, Image, Video, HelpCircle,
-  Calendar, Settings, Menu, X, ChevronRight, Globe, Heart, Info, Brain, Megaphone
+  Calendar, Settings, Menu, X, ChevronRight, Globe, Heart, Info, Brain, Megaphone, Award
 } from "lucide-react"
 
 const NAV = [
@@ -11,6 +11,7 @@ const NAV = [
   { path: "/admin/about", label: "About Page", icon: Info },
   { path: "/admin/neurotherapy", label: "Neurotherapy Page", icon: Brain },
   { path: "/admin/flash-news", label: "Flash News", icon: Megaphone },
+  { path: "/admin/achievements", label: "Achievements", icon: Award },
   { path: "/admin/services", label: "Services", icon: Stethoscope },
   { path: "/admin/benefits", label: "Benefits", icon: Heart },
   { path: "/admin/testimonials", label: "Testimonials", icon: Star },

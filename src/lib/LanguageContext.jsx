@@ -20,6 +20,7 @@ export const translations = {
       contact: 'Contact',
       bookAppointment: 'Book Appointment',
       announcements: 'Announcements',
+      achievements: 'Achievements & Awards',
     },
     hero: {
       badge: 'NATURAL \u2022 SAFE \u2022 SUPPORTIVE CARE',
@@ -81,6 +82,7 @@ export const translations = {
       contact: '\u0938\u0902\u092a\u0930\u094d\u0915',
       bookAppointment: '\u0905\u092a\u0949\u0907\u0902\u091f\u092e\u0947\u0902\u091f \u092c\u0941\u0915 \u0915\u0930\u0947\u0902',
       announcements: '\u0938\u0942\u091a\u0928\u093e\u090f\u0902',
+      achievements: '\u0909\u092a\u0932\u092c\u094d\u0927\u093f\u092f\u093e\u0901 \u0914\u0930 \u092a\u0941\u0930\u0938\u094d\u0915\u093e\u0930',
     },
     hero: {
       badge: '\u092a\u094d\u0930\u093e\u0915\u0943\u0924\u093f\u0915 \u2022 \u0938\u0941\u0930\u0915\u094d\u0937\u093f\u0924 \u2022 \u0938\u0939\u093e\u092f\u0915 \u0926\u0947\u0916\u092d\u093e\u0932',
